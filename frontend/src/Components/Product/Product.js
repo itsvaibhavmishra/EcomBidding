@@ -8,7 +8,11 @@ function Product(props) {
   return (
     <div className="items border border-solid border-lightgray m-4">
       <Link to={`/products/${product.id}`}>
-        <img className="w-full" src={product.image} alt={product.name} />
+        <img
+          className="w-full max-h-72"
+          src={product.image}
+          alt={product.name}
+        />
       </Link>
       <div className="items__info p-4">
         <Link to={`/products/${product.id}`}>
