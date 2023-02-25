@@ -35,7 +35,7 @@ const data = {
       price: 2699,
       rating: 3.5,
       brand: 'Puma',
-      stock: 10,
+      stock: 0,
       reviews: 2,
     },
     {

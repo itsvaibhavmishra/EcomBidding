@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import Rating from '../../Components/Rating/Rating';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -71,6 +72,9 @@ function ProductItems() {
 
       <div class="w-full md:w-1/2">
         <div class="p-4">
+          <Helmet>
+            <title>{product.name}-EcomBidding</title>
+          </Helmet>
           <h1 class="text-2xl font-bold mb-2">{product.name}</h1>
           <div class="grid grid-cols-4 items-center mb-2">
             <div class="text-left">

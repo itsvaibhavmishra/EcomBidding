@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './Home.css';
 import Product from '../../Components/Product/Product';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -40,6 +41,9 @@ function Home() {
   return (
     <div className="home__component">
       <div className="text-center pb-4 pt-8">
+        <Helmet>
+          <title>EcomBidding</title>
+        </Helmet>
         <h2 className="text-gray-600 inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
           Listed Products
         </h2>
