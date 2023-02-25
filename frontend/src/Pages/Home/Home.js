@@ -39,7 +39,12 @@ function Home() {
 
   return (
     <div className="home__component">
-      <h2>Listed Products</h2>
+      <div className="text-center pb-4 pt-8">
+        <h2 className="text-gray-600 inline-block border-b border-solid border-lightgray text-4xl px-2 mx-auto">
+          Listed Products
+        </h2>
+      </div>
+
       <div className="products">
         {loading ? (
           <div>Loading...</div>
