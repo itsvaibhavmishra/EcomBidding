@@ -40,31 +40,40 @@ function Home() {
   return (
     <div className="home__component">
       <div className="text-center pb-4 pt-8">
-        <h2 className="text-gray-600 inline-block border-b border-solid border-lightgray text-4xl px-2 mx-auto">
+        <h2 className="text-gray-600 inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
           Listed Products
         </h2>
       </div>
 
-      <div className="products">
+      <div className="products flex flex-wrap justify-center">
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
           <div>{error}</div>
         ) : (
           products.map((product) => (
-            <div className="items" key={product.id}>
+            <div
+              className="items border border-solid border-lightgray m-4"
+              key={product.id}
+            >
               <Link to={`/products/${product.id}`}>
-                <img src={product.image} alt={product.name} />
+                <img
+                  className="w-full"
+                  src={product.image}
+                  alt={product.name}
+                />
               </Link>
-              <div className="items__info">
+              <div className="items__info p-4">
                 <Link to={`/products/${product.id}`}>
                   <p>{product.name}</p>
-                  <p>
+                  <p className="text-sm">
                     <small>₹</small>
                     {product.price}
                   </p>
                 </Link>
-                <button>Add to Cart</button>
+                <button className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4">
+                  Add to Cart
+                </button>
               </div>
             </div>
           ))

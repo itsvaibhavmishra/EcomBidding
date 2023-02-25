@@ -1,24 +1,3 @@
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .products img {
   max-width: 300px;
-  width: 100%;
-}
-
-.items {
-  border: 1px solid lightgray;
-  margin: 1rem;
-}
-
-.items__info {
-  padding: 1rem;
-}
-
-.items a {
-  text-decoration: none;
-  color: black;
 }
