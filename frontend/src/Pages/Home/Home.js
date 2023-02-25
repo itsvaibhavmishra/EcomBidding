@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
+import Product from '../../Components/Product/Product';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -52,29 +52,8 @@ function Home() {
           <div>{error}</div>
         ) : (
           products.map((product) => (
-            <div
-              className="items border border-solid border-lightgray m-4"
-              key={product.id}
-            >
-              <Link to={`/products/${product.id}`}>
-                <img
-                  className="w-full"
-                  src={product.image}
-                  alt={product.name}
-                />
-              </Link>
-              <div className="items__info p-4">
-                <Link to={`/products/${product.id}`}>
-                  <p>{product.name}</p>
-                  <p className="text-sm">
-                    <small>₹</small>
-                    {product.price}
-                  </p>
-                </Link>
-                <button className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4">
-                  Add to Cart
-                </button>
-              </div>
+            <div key={product.id}>
+              <Product product={product} />
             </div>
           ))
         )}
