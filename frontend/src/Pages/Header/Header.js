@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Store } from '../../Store';
 import './Header.css';
 
 export default function Navbar() {
@@ -13,6 +14,9 @@ export default function Navbar() {
   const handleTextChange = (value) => {
     setText(value);
   };
+
+  const { state } = useContext(Store);
+  const { cart } = state;
 
   return (
     <>
@@ -55,8 +59,20 @@ export default function Navbar() {
             <Link to="/" className="mr-5 hover:text-gray-900">
               Dashboard
             </Link>
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Cart
+            <Link
+              to="/"
+              className="relative inline-flex items-center mr-5 hover:text-gray-900"
+            >
+              <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
+                {cart.cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-2 h-5 w-5 rounded-full bg-red-500 flex justify-center text-white text-xs items-center">
+                    <span>{cart.cartItems.length}</span>
+                  </span>
+                )}
+                <span className="ml-1.5 text-gray-900 text-base hover:text-gray-700">
+                  Cart
+                </span>
+              </span>
             </Link>
             <Link to="/" className="mr-5 hover:text-gray-900">
               Seller

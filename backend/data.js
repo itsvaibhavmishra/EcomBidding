@@ -2,6 +2,7 @@
 const data = {
   products: [
     {
+      _id: '1', // _id to make it compatible with MongoDB
       name: 'Fujifilm Instax Mini 9 Instant Camera',
       id: 'Fujifilm-Instax-Mini-9-Instant-Camera', // id: for url compatibility
       description: 'premium quality camera for capturing your best moments',
@@ -14,6 +15,7 @@ const data = {
       reviews: 5,
     },
     {
+      _id: '2',
       name: 'Fossil Gen 6 Smartwatch',
       id: 'Fossil-Gen-6-Smartwatch', // id: for url compatibility
       description:
@@ -27,6 +29,7 @@ const data = {
       reviews: 10,
     },
     {
+      _id: '3',
       name: 'Puma Women Shoes',
       id: 'Puma-Women-Shoes', // id: for url compatibility
       description: "Puma Women's Maximal Comfort WNS Leather Running Shoe",
@@ -39,6 +42,7 @@ const data = {
       reviews: 2,
     },
     {
+      _id: '4',
       name: 'Urbano Men T-Shirt',
       id: 'Urbano-Men-T-Shirt', // id: for url compatibility
       description:
