@@ -7,7 +7,7 @@ function Product(props) {
   const { product } = props;
   return (
     <div className="items border border-solid border-lightgray m-4">
-      <Link to={`/products/${product.id}`}>
+      <Link to={`/products/${product.url}`}>
         <img
           className="w-full max-h-72"
           src={product.image}
@@ -15,7 +15,7 @@ function Product(props) {
         />
       </Link>
       <div className="items__info p-4">
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/products/${product.url}`}>
           <p>{product.name}</p>
           <Rating rating={product.rating} reviews={product.reviews} />
           <p className="text-sm">
