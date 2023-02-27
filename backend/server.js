@@ -1,20 +1,29 @@
-import express from 'express';
-import data from './data.js';
+import express from "express";
+import data from "./data.js";
 
 const app = express();
 
 // returns list of products for this api
-app.get('/api/products', (req, res) => {
+app.get("/api/products", (req, res) => {
   res.send(data.products);
 });
 
 // :url is the product url user requested
-app.get('/api/products/url/:url', (req, res) => {
-  const product = data.products.find((x) => x.url === req.params.url);
+app.get("/api/products/url/:url", (req, res) => {
+  const product = data.products.find((item) => item.url === req.params.url);
   if (product) {
     res.send(product);
   } else {
-    res.status(404).send({ message: 'Product Not Found' });
+    res.status(404).send({ message: "Product Not Found" });
+  }
+});
+
+app.get("/api/products/:id", (req, res) => {
+  const product = data.products.find((item) => item._id === req.params.id);
+  if (product) {
+    res.send(product);
+  } else {
+    res.status(404).send({ message: "Product Not Found" });
   }
 });
 
