@@ -20,7 +20,7 @@ function Product(props) {
           <Rating rating={product.rating} reviews={product.reviews} />
           <p className="text-sm">
             <small>₹</small>
-            {product.price}
+            {product.price.toLocaleString('en-IN')}
           </p>
         </Link>
         <button className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4">
