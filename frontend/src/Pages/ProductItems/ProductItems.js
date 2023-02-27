@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 
 function ProductItems() {
   const params = useParams();
-  const { id } = params;
+  const { url } = params;
 
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: [],
@@ -34,7 +34,7 @@ function ProductItems() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const result = await axios.get(`/api/products/id/${id}`);
+        const result = await axios.get(`/api/products/url/${url}`);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message });
@@ -42,7 +42,7 @@ function ProductItems() {
       // setProducts(result.data);
     };
     fetchData();
-  }, [id]);
+  }, [url]);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const addToCartHandler = () => {

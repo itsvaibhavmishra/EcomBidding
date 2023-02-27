@@ -8,9 +8,9 @@ app.get('/api/products', (req, res) => {
   res.send(data.products);
 });
 
-// :id is the product id user requested
-app.get('/api/products/id/:id', (req, res) => {
-  const product = data.products.find((x) => x.id === req.params.id);
+// :url is the product url user requested
+app.get('/api/products/url/:url', (req, res) => {
+  const product = data.products.find((x) => x.url === req.params.url);
   if (product) {
     res.send(product);
   } else {

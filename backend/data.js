@@ -4,7 +4,7 @@ const data = {
     {
       _id: '1', // _id to make it compatible with MongoDB
       name: 'Fujifilm Instax Mini 9 Instant Camera',
-      id: 'Fujifilm-Instax-Mini-9-Instant-Camera', // id: for url compatibility
+      url: 'Fujifilm-Instax-Mini-9-Instant-Camera', // url: for url compatibility
       description: 'premium quality camera for capturing your best moments',
       category: 'Electronics',
       image: '../images/Fujifilm.jpg',
@@ -17,7 +17,7 @@ const data = {
     {
       _id: '2',
       name: 'Fossil Gen 6 Smartwatch',
-      id: 'Fossil-Gen-6-Smartwatch', // id: for url compatibility
+      url: 'Fossil-Gen-6-Smartwatch', // url: for url compatibility
       description:
         'Smartwatch with AMOLED Screen, Snapdragon 4100+ Wear Platform, Wear OS by Google, Google Assistant, SpO2, Wellness Features and Smartphone Notifications',
       category: 'Electronics',
@@ -31,7 +31,7 @@ const data = {
     {
       _id: '3',
       name: 'Puma Women Shoes',
-      id: 'Puma-Women-Shoes', // id: for url compatibility
+      url: 'Puma-Women-Shoes', // url: for url compatibility
       description: "Puma Women's Maximal Comfort WNS Leather Running Shoe",
       category: 'Shoes',
       image: '../images/womenShoes.jpg',
@@ -44,7 +44,7 @@ const data = {
     {
       _id: '4',
       name: 'Urbano Men T-Shirt',
-      id: 'Urbano-Men-T-Shirt', // id: for url compatibility
+      url: 'Urbano-Men-T-Shirt', // url: for url compatibility
       description:
         "Urbano Fashion Men's Printed Full Sleeve Slim Fit Cotton T-Shirt",
       category: 'Clothings',
