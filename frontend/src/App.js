@@ -21,7 +21,7 @@ function App() {
         />
 
         <Route
-          path="/products/:url"
+          path="/products/:id"
           element={
             <>
               <Header />
