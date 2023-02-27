@@ -58,7 +58,7 @@ function Home() {
           <ErrorPage />
         ) : (
           products.map((product) => (
-            <div key={product.id}>
+            <div key={product.url}>
               <Product product={product} />
             </div>
           ))
