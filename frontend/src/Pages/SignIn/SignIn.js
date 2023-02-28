@@ -17,9 +17,10 @@ const LoginPage = () => {
 
       <h2 className="absolute top-[5%] right-[5%] text-3xl font-bold">
         <Link to="/">
-          <i className="fas fa-times text-cyan-500"></i>
+          <i className="fas fa-times text-cyan-500 hover:animate-pulse delay-500"></i>
         </Link>
       </h2>
+
       <img
         src={wave}
         alt="wave"
@@ -56,17 +57,20 @@ const LoginPage = () => {
           <div className="flex">
             <Link
               to={`/signup?redirect=${redirect}`}
-              className="self-start mt-4 mr-4 text-gray-600 font-bold"
+              className="self-start mt-4 mr-4 text-gray-600 font-semibold hover:animate-pulse delay-500"
             >
               New Customer?
             </Link>
-            <Link to="/" className="self-end mt-4 ml-4 text-gray-600 font-bold">
+            <Link
+              to="/"
+              className="self-end mt-4 ml-4 text-gray-600 font-bold hover:animate-pulse delay-500"
+            >
               Forgot password?
             </Link>
           </div>
           <button
             type="submit"
-            className="py-3 px-20 bg-primarycolor rounded-full text-white font-bold uppercase text-lg mt-4 transform hover:translate-y-1 transition-all duration-500"
+            className="py-3 px-20 bg-primarycolor rounded-full text-white font-semibold uppercase text-lg mt-4 transform hover:translate-y-1 transition-all duration-500"
           >
             Login
           </button>
