@@ -1,17 +1,19 @@
 // react context api
-import { createContext, useReducer } from "react";
+import { createContext, useReducer } from 'react';
 
 export const Store = createContext();
 
 const initialState = {
   cart: {
-    cartItems: [],
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : [],
   },
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "CART_ADD_ITEM":
+    case 'CART_ADD_ITEM':
       const newItem = action.payload;
       const existItem = state.cart.cartItems.find(
         (item) => item._id === newItem._id
@@ -21,7 +23,19 @@ function reducer(state, action) {
             item._id === existItem._id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      // Creating local storage for added items
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
+
+    case 'CART_REMOVE_ITEM': {
+      // used {} so cartItems doesn't conflict cartItems from case 1
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item._id !== action.payload._id
+      );
+      // Creating local storage removed items
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
     default:
       return state;
   }
