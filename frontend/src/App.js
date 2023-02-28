@@ -42,6 +42,8 @@ function App() {
           }
         />
         <Route path="/signin" element={<LoginPage />} />
+
+        <Route path="/shipping" element={<Header />} />
       </Routes>
     </Router>
   );

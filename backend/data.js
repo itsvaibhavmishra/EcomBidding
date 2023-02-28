@@ -1,5 +1,23 @@
+import bcrypt from 'bcryptjs';
+
 // returns data for products
 const data = {
+  users: [
+    {
+      // Admin user
+      name: 'Vaibhaw',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('admin@1234'),
+      isAdmin: true,
+    },
+    {
+      name: 'User',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('abc123'),
+      isAdmin: false,
+    },
+  ],
+
   products: [
     {
       name: 'Fujifilm Instax Mini 9 Instant Camera',
