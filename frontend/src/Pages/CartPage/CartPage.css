@@ -1,0 +1,26 @@
+/* Hide scrollbar arrow keys */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  height: 50px;
+}
+
+/* On hover, highlight the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Adjust scrollbar height */
+::-webkit-scrollbar {
+  height: 10px;
+}

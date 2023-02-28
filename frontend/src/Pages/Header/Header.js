@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Store } from "../../Store";
-import "./Header.css";
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Store } from '../../Store';
+import './Header.css';
 
 export default function Navbar() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const searchClicked = () => {
-    setText("");
+    setText('');
     console.log(text);
   };
 
@@ -60,7 +60,7 @@ export default function Navbar() {
               Dashboard
             </Link>
             <Link
-              to="/"
+              to="/cart"
               className="relative inline-flex items-center mr-5 hover:text-gray-900"
             >
               <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
