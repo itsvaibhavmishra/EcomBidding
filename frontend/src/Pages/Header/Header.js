@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Store } from "../../Store";
-import "./Header.css";
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Store } from '../../Store';
+import './Header.css';
 
 export default function Navbar() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const searchClicked = () => {
-    setText("");
+    setText('');
     console.log(text);
   };
 

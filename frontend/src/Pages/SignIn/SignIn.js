@@ -1,24 +1,30 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
-import wave from "./Assets/wave.png";
-import avatar from "./Assets/avatar.svg";
-import unlock from "./Assets/unlock.svg";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import wave from './Assets/wave.png';
+import avatar from './Assets/avatar.svg';
+import unlock from './Assets/unlock.svg';
 
 const LoginPage = () => {
   const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectInUrl ? redirectInUrl : "/";
+  const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const redirect = redirectInUrl ? redirectInUrl : '/';
   return (
-    <>
+    <div className="relative">
       <Helmet>
         <title>Sign In</title>
       </Helmet>
+
+      <h2 className="absolute top-[5%] right-[5%] text-3xl font-bold">
+        <Link to="/">
+          <i class="fas fa-times text-cyan-500"></i>
+        </Link>
+      </h2>
       <img
         src={wave}
         alt="wave"
         className="fixed hidden lg:block inset-0 h-full"
-        style={{ zIndex: "-1" }}
+        style={{ zIndex: '-1' }}
       />
       <div className="w-screen h-screen flex flex-col justify-center items-center lg:grid lg:grid-cols-2">
         <img
@@ -66,7 +72,7 @@ const LoginPage = () => {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
