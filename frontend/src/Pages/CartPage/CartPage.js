@@ -28,7 +28,7 @@ export default function CartPage() {
                 </Link>
               </div>
             ) : (
-              <div className="bg-white border-b border-gray-200 shadow sm:rounded-lg">
+              <div className="bg-white border-b border-gray-200 shadow sm:rounded-lg hover:transform hover:scale-105 duration-500">
                 <div className="overflow-x-auto max-w-screen-md">
                   <table className="min-w-full divide-y divide-gray-200 ">
                     <thead className="bg-gray-50">
@@ -67,19 +67,21 @@ export default function CartPage() {
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {cartItems.map((item) => (
-                        <tr key={item.id}>
+                        <tr key={item._id}>
                           <td className="whitespace-nowrap px-6 py-4 md:px-2 md:py-3">
                             <div className="flex items-center">
                               <div className="h-10 w-10 flex-shrink-0">
                                 <img
                                   className="h-10 w-10 rounded-full"
                                   src={item.image}
-                                  alt={item.title}
+                                  alt={item.name}
                                 />
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900 whitespace-normal">
-                                  {item.name}
+                                  <Link to={`/products/${item.url}`}>
+                                    {item.name}
+                                  </Link>
                                 </div>
                               </div>
                             </div>
@@ -96,25 +98,26 @@ export default function CartPage() {
                               >
                                 -
                               </button>
-                              <span className="text-sm font-medium text-gray-900">
+                              <span className="text-sm font-medium text-gray-900 pr-2">
                                 {item.quantity}
                               </span>
                               <button
                                 className={`mr-2 rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200 ${
-                                  item.quantity === 1
+                                  item.quantity >= item.stock
                                     ? 'pointer-events-none opacity-50'
                                     : ''
                                 }`}
-                                disabled={item.quantity === item.stock}
+                                disabled={item.quantity >= item.stock}
                               >
                                 +
                               </button>
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                            {item.price.toLocaleString('en-IN')}
+                            ₹{item.price.toLocaleString('en-IN')}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                            ₹
                             {(item.quantity * item.price).toLocaleString(
                               'en-IN'
                             )}
@@ -132,7 +135,7 @@ export default function CartPage() {
               </div>
             )}
           </div>
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 hover:transform hover:scale-105 duration-500">
             <div className="bg-white shadow-lg sm:rounded-lg md:-mt-3">
               <div className="px-4 py-5 sm:p-6">
                 <h2 className="mb-4 text-lg font-medium text-gray-900">
@@ -141,13 +144,13 @@ export default function CartPage() {
                 <div className="flex justify-between mb-2">
                   <span className="text-gray-500">Items:</span>
                   <span className="text-gray-900 font-medium">
-                    {cartItems.map((item) => item.quantity)}
+                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                   </span>
                 </div>
                 <div className="flex justify-between mb-4">
                   <span className="text-gray-500">Total:</span>
                   <span className="text-gray-900 font-medium">
-                    $
+                    ₹
                     {cartItems
                       .reduce(
                         (acc, item) => acc + item.quantity * item.price,
@@ -156,7 +159,14 @@ export default function CartPage() {
                       .toLocaleString('en-IN')}
                   </span>
                 </div>
-                <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded">
+                <button
+                  className={`w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded ${
+                    cartItems.length === 0
+                      ? 'opacity-50 cursor-not-allowed'
+                      : ''
+                  }`}
+                  disabled={cartItems.length === 0}
+                >
                   Checkout
                 </button>
               </div>
