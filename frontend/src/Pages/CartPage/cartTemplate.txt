@@ -1,0 +1,77 @@
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <h1 class="mb-8 text-3xl font-bold">Shopping Cart</h1>
+
+  <div class="flex flex-col lg:flex-row lg:space-x-12">
+
+    <!-- Cart items -->
+    <div class="max-w-full lg:max-w-3xl mx-auto lg:w-2/3 overflow-x-auto">
+      <div class="bg-white border-b border-gray-200 shadow sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Quantity</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Price</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Total</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            <tr>
+              <td class="whitespace-nowrap px-6 py-4">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 flex-shrink-0">
+                    <img class="h-10 w-10 rounded-full" src="https://dummyimage.com/100x100/000/fff" alt="" />
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">Product Name</div>
+                    <div class="text-sm text-gray-500">Description</div>
+                  </div>
+                </div>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4">
+                <div class="flex items-center">
+                  <button class="mr-2 rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200">-</button>
+                  <span class="text-sm font-medium text-gray-900">1</span>
+                  <button class="ml-2 rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200">+</button>
+                </div>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">$10.00</td>
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">$10.00</td>
+              <td class="whitespace-nowrap px-6 py-4">
+                <button class="text-gray-600 hover:text-red-800">
+                  <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+            <!-- More cart items here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <!-- Subtotal card -->
+  <div class="max-w-none mx-auto lg:w-1/3 lg:mt-0 mt-8 bg-white overflow-hidden border border-gray-200 shadow sm:rounded-lg w-full">
+  <div class="px-4 py-5 sm:p-6">
+    <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-3">
+      <h2 class="text-lg text-gray-600 font-bold">Subtotal (1 Items)</h2>
+    </div>
+    <div class="mt-4 flex justify-between items-center">
+      <div class="text-gray-500 font-medium">
+        Total:
+      </div>
+      <div class="text-2xl font-bold">
+        $100.00
+      </div>
+    </div>
+    <div class="mt-6">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
+        Checkout
+      </button>
+    </div>
+  </div>
+</div>
+
+</main>

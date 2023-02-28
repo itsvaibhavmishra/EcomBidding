@@ -53,7 +53,7 @@ function ProductItems() {
 
     const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (data.countInStock < quantity) {
+    if (data.stock < quantity) {
       window.alert('Product is out of stock.');
       return;
     }

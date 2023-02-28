@@ -58,7 +58,10 @@ function Home() {
           <ErrorPage />
         ) : (
           products.map((product) => (
-            <div key={product.url}>
+            <div
+              key={product.url}
+              className="hover:transform hover:scale-105 duration-500"
+            >
               <Product product={product} />
             </div>
           ))
