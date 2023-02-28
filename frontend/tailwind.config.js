@@ -7,10 +7,6 @@ module.exports = {
         primarycolor: "#06B6D4",
       },
     },
-    fontFamily: {
-      display: ["Nunito", "sans-serif"],
-    },
   },
-  variants: {},
   plugins: [],
 };

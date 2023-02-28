@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Store } from '../../Store';
-import './Header.css';
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { Store } from "../../Store";
+import "./Header.css";
 
 export default function Navbar() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const searchClicked = () => {
-    setText('');
+    setText("");
     console.log(text);
   };
 
@@ -35,7 +35,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search"
-                className="bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 mb-4 md:mt-0 md:mb-0 sm:mb-4 w-80"
+                className="bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 mb-4 md:mt-0 md:mb-0 sm:mb-4 lg:w-80"
                 onChange={(event) => handleTextChange(event.target.value)}
                 value={text}
               />
