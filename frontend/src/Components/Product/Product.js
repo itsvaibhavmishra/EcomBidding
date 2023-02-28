@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Product.css';
 import Rating from '../Rating/Rating';
+import axios from 'axios';
+import { Store } from '../../Store';
 
 function Product(props) {
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const {
+    cart: { cartItems },
+  } = state;
+  const addToCartHandler = async (item) => {
+    const existItem = cartItems.find((item) => item._id === product._id);
+
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.stock < quantity) {
+      window.alert('Product is out of stock.');
+      return;
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...item, quantity },
+    });
+  };
+
   const { product } = props;
+
   return (
     <div className="items border border-solid border-lightgray m-4">
       <Link to={`/products/${product.url}`}>
@@ -23,9 +46,22 @@ function Product(props) {
             {product.price.toLocaleString('en-IN')}
           </p>
         </Link>
-        <button className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4">
-          Add to Cart
-        </button>
+        {product.stock === 0 ? (
+          <button
+            className={`bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4 ${
+              product.stock === 0 ? 'opacity-50 pointer-events-none' : ''
+            }`}
+          >
+            Out of Stock
+          </button>
+        ) : (
+          <button
+            className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg mt-4"
+            onClick={() => addToCartHandler(product)}
+          >
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../../Store';
 import './CartPage.css';
 
@@ -9,6 +10,28 @@ export default function CartPage() {
   const {
     cart: { cartItems },
   } = state;
+
+  const updateCartHandler = async (item, quantity) => {
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.stock < quantity) {
+      window.alert('Product is out of stock.');
+      return;
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...item, quantity },
+    });
+  };
+
+  const removeItemHandler = (item) => {
+    ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+
+  const navigate = useNavigate();
+
+  const checkoutHandler = () => {
+    navigate('/signin?redirect=/shipping');
+  };
 
   return (
     <div>
@@ -23,7 +46,7 @@ export default function CartPage() {
             {cartItems.length === 0 ? (
               <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
                 Cart is empty.{' '}
-                <Link to="/" className="text-blue-500 font-bold">
+                <Link to="/" className="text-cyan-600 font-bold">
                   Go Shopping
                 </Link>
               </div>
@@ -95,6 +118,9 @@ export default function CartPage() {
                                     : ''
                                 }`}
                                 disabled={item.quantity === 1}
+                                onClick={() =>
+                                  updateCartHandler(item, item.quantity - 1)
+                                }
                               >
                                 -
                               </button>
@@ -108,6 +134,9 @@ export default function CartPage() {
                                     : ''
                                 }`}
                                 disabled={item.quantity >= item.stock}
+                                onClick={() =>
+                                  updateCartHandler(item, item.quantity + 1)
+                                }
                               >
                                 +
                               </button>
@@ -123,7 +152,10 @@ export default function CartPage() {
                             )}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                            <button className="text-red-500 hover:text-red-700">
+                            <button
+                              className="text-red-500 hover:text-red-700"
+                              onClick={() => removeItemHandler(item)}
+                            >
                               Remove
                             </button>
                           </td>
@@ -166,6 +198,7 @@ export default function CartPage() {
                       : ''
                   }`}
                   disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
                 >
                   Checkout
                 </button>
