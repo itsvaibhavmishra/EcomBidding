@@ -17,7 +17,7 @@ const LoginPage = () => {
 
       <h2 className="absolute top-[5%] right-[5%] text-3xl font-bold">
         <Link to="/">
-          <i class="fas fa-times text-cyan-500"></i>
+          <i className="fas fa-times text-cyan-500"></i>
         </Link>
       </h2>
       <img
