@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { Store } from '../../Store';
 import './Header.css';
@@ -15,11 +17,24 @@ export default function Navbar() {
     setText(value);
   };
 
-  const { state } = useContext(Store);
-  const { cart } = state;
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart, userInfo } = state;
+
+  // for profile dropdown
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleDropdown() {
+    setIsOpen(!isOpen);
+  }
+
+  function signoutHandler() {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+  }
 
   return (
     <>
+      <ToastContainer position="bottom-center" limit={1} />
       <header className="text-gray-600 body-font shadow-lg">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <Link
@@ -56,13 +71,70 @@ export default function Navbar() {
           </div>
 
           <nav className="flex lg:w-2/5 flex-wrap lg:justify-end items-center text-base md:ml-auto">
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Dashboard
-            </Link>
-            <Link
-              to="/cart"
-              className="relative inline-flex items-center mr-5 hover:text-gray-900"
-            >
+            {userInfo ? (
+              <div className="relative group">
+                <button
+                  id="dropdownUserAvatarButton"
+                  data-dropdown-toggle="dropdownAvatar"
+                  className="flex items-center mr-2 hover:text-gray-900 cursor-default focus:outline-none cursor-pointer"
+                  onClick={toggleDropdown}
+                >
+                  <img
+                    className="w-8 h-8 rounded-full"
+                    src="https://i.pravatar.cc/150?img=3"
+                    alt="profilepic"
+                  />
+                </button>
+                {isOpen && (
+                  <div
+                    id="dropdownAvatar"
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 left-0 sm:right-auto sm:top-12"
+                  >
+                    <div className="px-4 py-3 text-sm text-gray-900">
+                      <div>{userInfo.name}</div>
+                      <div className="font-medium truncate">
+                        {userInfo.email}
+                      </div>
+                    </div>
+                    <ul
+                      className="py-2 text-sm text-gray-700"
+                      aria-labelledby="dropdownUserAvatarButton"
+                    >
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/orderhistory"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Your Orders
+                        </Link>
+                      </li>
+                    </ul>
+                    <div className="py-2">
+                      <Link
+                        to="#signout"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={signoutHandler}
+                      >
+                        Sign out
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/signin" className="mr-5 hover:text-gray-900">
+                Sign In
+              </Link>
+            )}
+            <Link to="/cart" className="relative inline-flex items-center mr-5">
               <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
                 {cart.cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-2 h-5 w-5 rounded-full bg-red-500 flex justify-center text-white text-xs items-center">
@@ -71,7 +143,7 @@ export default function Navbar() {
                     </span>
                   </span>
                 )}
-                <span className="ml-1.5 text-gray-900 text-base hover:text-gray-700">
+                <span className="ml-1.5 text-base text-gray-600 hover:text-gray-900">
                   Cart
                 </span>
               </span>

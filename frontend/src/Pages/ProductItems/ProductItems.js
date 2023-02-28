@@ -1,20 +1,21 @@
-import axios from "axios";
-import React, { useContext, useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
-import Rating from "../../Components/Rating/Rating";
-import { Helmet } from "react-helmet-async";
-import Loading from "../../Components/Loading/Loading";
-import ErrorPage from "../../Components/ErrorPage/ErrorPage";
-import { Store } from "../../Store";
-import "./ProductItems.css";
+import axios from 'axios';
+import React, { useContext, useEffect, useReducer } from 'react';
+import { useParams } from 'react-router-dom';
+import Rating from '../../Components/Rating/Rating';
+import { Helmet } from 'react-helmet-async';
+import Loading from '../../Components/Loading/Loading';
+import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import { Store } from '../../Store';
+import './ProductItems.css';
+import { toast } from 'react-toastify';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_REQUEST":
+    case 'FETCH_REQUEST':
       return { ...state, loading: true };
-    case "FETCH_SUCCESS":
+    case 'FETCH_SUCCESS':
       return { ...state, product: action.payload, loading: false };
-    case "FETCH_FAIL":
+    case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -28,17 +29,17 @@ function ProductItems() {
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: [],
     loading: true,
-    error: "",
+    error: '',
   });
   // const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: "FETCH_REQUEST" });
+      dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get(`/api/products/url/${url}`);
-        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
-        dispatch({ type: "FETCH_FAIL", payload: err.message });
+        dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
       // setProducts(result.data);
     };
@@ -55,11 +56,11 @@ function ProductItems() {
     const { data } = await axios.get(`/api/products/${product._id}`);
 
     if (data.stock < quantity) {
-      window.alert("Product is out of stock.");
+      toast.error('Product is out of stock.');
       return;
     }
     ctxDispatch({
-      type: "CART_ADD_ITEM",
+      type: 'CART_ADD_ITEM',
       payload: { ...product, quantity },
     });
   };
@@ -93,7 +94,7 @@ function ProductItems() {
           </div>
           <p className="text-lg mb-2">
             Price: <small>₹</small>
-            {product.price.toLocaleString("en-IN")}
+            {product.price.toLocaleString('en-IN')}
           </p>
           <p className="text-lg mb-2">Description: {product.description}</p>
         </div>
@@ -103,7 +104,7 @@ function ProductItems() {
               <span>Price:</span>
               <span className="font-bold">
                 <small>₹</small>
-                {product.price.toLocaleString("en-IN")}
+                {product.price.toLocaleString('en-IN')}
               </span>
             </li>
             <li className="py-2 flex justify-between items-center">

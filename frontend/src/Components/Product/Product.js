@@ -4,6 +4,7 @@ import './Product.css';
 import Rating from '../Rating/Rating';
 import axios from 'axios';
 import { Store } from '../../Store';
+import { toast } from 'react-toastify';
 
 function Product(props) {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -17,7 +18,7 @@ function Product(props) {
 
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.stock < quantity) {
-      window.alert('Product is out of stock.');
+      toast.error('Product is out of stock.');
       return;
     }
     ctxDispatch({
