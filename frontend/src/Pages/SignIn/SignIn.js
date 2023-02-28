@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import wave from "./Assets/image.png";
+import wave from "./Assets/wave.png";
 import avatar from "./Assets/avatar.svg";
 import unlock from "./Assets/unlock.svg";
 
