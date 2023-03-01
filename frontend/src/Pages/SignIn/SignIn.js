@@ -9,6 +9,7 @@ import { Store } from '../../Store';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getError } from '../../utils';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ function LoginPage() {
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
     } catch (err) {
-      toast.error('Invalid Email/Password');
+      toast.error(getError(err));
     }
   };
 
@@ -76,7 +77,7 @@ function LoginPage() {
           <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">
             Welcome to you
           </h2>
-          <div className="relative">
+          <div className="relative font-sans">
             <i className="fa fa-user absolute text-primarycolor"></i>
             <input
               type="email"
