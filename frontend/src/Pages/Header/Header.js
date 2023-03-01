@@ -100,7 +100,7 @@ export default function Navbar() {
                   onClick={toggleDropdown}
                 >
                   <img
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 rounded-full hover:scale-110 transition-all delay-200"
                     src="https://i.pravatar.cc/150?img=3"
                     alt="profilepic"
                   />
@@ -140,7 +140,7 @@ export default function Navbar() {
                     <div className="py-2">
                       <Link
                         to="#signout"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         onClick={signoutHandler}
                       >
                         Sign out
