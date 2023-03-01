@@ -71,12 +71,32 @@ export default function Navbar() {
           </div>
 
           <nav className="flex lg:w-2/5 flex-wrap lg:justify-end items-center text-base md:ml-auto">
+            <Link to="/cart" className="relative inline-flex items-center mr-5">
+              <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
+                {cart.cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-2 h-5 w-5 rounded-full bg-red-500 flex justify-center text-white text-xs items-center">
+                    <span>
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </span>
+                  </span>
+                )}
+                <span className="ml-1.5 text-base text-gray-600 hover:text-gray-900">
+                  Cart
+                </span>
+              </span>
+            </Link>
+            <Link to="/" className="mr-5 hover:text-gray-900">
+              Seller
+            </Link>
+            <Link to="/" className="hover:text-gray-900 mr-6">
+              Admin
+            </Link>
             {userInfo ? (
               <div className="relative group">
                 <button
                   id="dropdownUserAvatarButton"
                   data-dropdown-toggle="dropdownAvatar"
-                  className="flex items-center mr-2 hover:text-gray-900 cursor-default focus:outline-none cursor-pointer"
+                  className="flex items-center mr-2 hover:text-gray-900 focus:outline-none cursor-pointer"
                   onClick={toggleDropdown}
                 >
                   <img
@@ -88,7 +108,7 @@ export default function Navbar() {
                 {isOpen && (
                   <div
                     id="dropdownAvatar"
-                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 left-0 sm:right-auto sm:top-12"
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 sm:left-auto sm:right-0"
                   >
                     <div className="px-4 py-3 text-sm text-gray-900">
                       <div>{userInfo.name}</div>
@@ -134,26 +154,6 @@ export default function Navbar() {
                 Sign In
               </Link>
             )}
-            <Link to="/cart" className="relative inline-flex items-center mr-5">
-              <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
-                {cart.cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-2 h-5 w-5 rounded-full bg-red-500 flex justify-center text-white text-xs items-center">
-                    <span>
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </span>
-                  </span>
-                )}
-                <span className="ml-1.5 text-base text-gray-600 hover:text-gray-900">
-                  Cart
-                </span>
-              </span>
-            </Link>
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Seller
-            </Link>
-            <Link to="/" className="hover:text-gray-900">
-              Admin
-            </Link>
           </nav>
         </div>
       </header>
