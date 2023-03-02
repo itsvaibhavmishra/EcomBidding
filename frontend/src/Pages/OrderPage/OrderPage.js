@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
 import Loading from '../../Components/Loading/Loading';
-import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
 import { Link } from 'react-router-dom';
@@ -24,7 +22,6 @@ const reducer = (state, action) => {
 function OrderPage() {
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const navigate = useNavigate();
 
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -65,49 +62,56 @@ function OrderPage() {
       {loading ? (
         <Loading />
       ) : error ? (
-        <ErrorPage />
+        <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
+          Your Order Page is empty.{' '}
+          <Link to="/" className="text-cyan-600 font-bold">
+            Go Shopping
+          </Link>
+        </div>
       ) : (
-        <div class="container mx-auto px-4 py-8">
-          <h1 class="text-3xl font-bold mb-8">Order History</h1>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8">Order History</h1>
 
           {/* Primary card */}
-          <div class="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-4">
-            <div class="grid grid-cols-6 bg-gray-50 border-b border-gray-300 font-medium text-sm">
-              <div class="py-3 px-4">Name</div>
-              <div class="py-3 px-4">Date</div>
-              <div class="py-3 px-4">Total</div>
-              <div class="py-3 px-4">Paid</div>
-              <div class="py-3 px-4">Delivered</div>
-              <div class="py-3 px-4">Actions</div>
+          <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-4">
+            <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-300 font-medium text-sm">
+              <div className="py-3 px-4">Name</div>
+              <div className="py-3 px-4">Date</div>
+              <div className="py-3 px-4">Total</div>
+              <div className="py-3 px-4">Paid</div>
+              <div className="py-3 px-4">Delivered</div>
+              <div className="py-3 px-4">Actions</div>
             </div>
           </div>
 
           {orders.map((order) => (
             // Order card
-            <div class="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-8">
-              <div class="grid grid-cols-6 bg-gray-100 text-sm font-medium text-gray-700">
-                <div class="py-4 px-4 flex items-center">
+            <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-8">
+              <div className="grid grid-cols-6 bg-gray-100 text-sm font-medium text-gray-700">
+                <div className="py-4 px-4 flex items-center">
                   <img
                     src={order.image}
                     alt="UserAvatar"
-                    class="rounded-full w-6 h-6 mr-2"
+                    className="rounded-full w-6 h-6 mr-2"
                   />
                   <span>{order.name}</span>
                 </div>
-                <div class="py-4 px-4">{order.createdAt.substring(0, 10)}</div>
-                <div class="py-4 px-4">
+                <div className="py-4 px-4">
+                  {order.createdAt.substring(0, 10)}
+                </div>
+                <div className="py-4 px-4">
                   <small>₹</small>
                   {order.totalPrice.toFixed(2)}
                 </div>
                 <div
-                  class={`py-4 px-4 ${
+                  className={`py-4 px-4 ${
                     order.isPaid ? 'text-green-600' : 'text-red-600'
                   }`}
                 >
                   {order.isPaid ? order.paidAt.substring(0, 10) : 'No'}
                 </div>
                 <div
-                  class={`py-4 px-4 ${
+                  className={`py-4 px-4 ${
                     order.isDelivered ? 'text-green-600' : 'text-red-600'
                   }`}
                 >
@@ -115,25 +119,25 @@ function OrderPage() {
                     ? order.deliveredAt.substring(0, 10)
                     : 'No'}
                 </div>
-                <div class="py-3 px-8 text-center">
+                <div className="py-3 px-8 text-center">
                   <button
                     type="button"
-                    class="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
+                    className="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
                     onClick={toggleDropdown}
                   >
-                    <i class="fas fa-ellipsis-v p-[6px] bg-slate-200 rounded-md"></i>
+                    <i className="fas fa-ellipsis-v p-[6px] bg-slate-200 rounded-md"></i>
                   </button>
                   {isOpen && (
-                    <div class="absolute mt-2 w-28 md:right-auto right-5 bg-white border rounded-md shadow-lg z-10 hidden">
+                    <div className="absolute mt-2 w-28 md:right-auto right-5 bg-white border rounded-md shadow-lg z-10 hidden">
                       <Link
                         to={`/order/${order._id}`}
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Details
                       </Link>
                       <Link
                         to={`/products/${order.url}`}
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t"
                       >
                         Buy More
                       </Link>

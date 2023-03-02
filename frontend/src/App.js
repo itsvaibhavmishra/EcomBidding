@@ -6,6 +6,8 @@ import Footer from './Pages/Footer/Footer';
 import ProductItems from './Pages/ProductItems/ProductItems';
 import LoginPage from './Pages/SignIn/SignIn';
 import CartPage from './Pages/CartPage/CartPage';
+import OrderPage from './Pages/OrderPage/OrderPage';
+import AddressPage from './Pages/AddressPage/AddressPage';
 
 function App() {
   return (
@@ -43,7 +45,26 @@ function App() {
         />
         <Route path="/signin" element={<LoginPage />} />
 
+        <Route
+          path="/shipping"
+          element={
+            <>
+              <Header />
+              <AddressPage />
+            </>
+          }
+        />
         <Route path="/shipping" element={<Header />} />
+
+        <Route
+          path="/orderhistory"
+          element={
+            <>
+              <Header />
+              <OrderPage />
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
