@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,25 @@ export default function Navbar() {
   // for profile dropdown
   const [isOpen, setIsOpen] = useState(false);
 
+  // eslint-disable-next-line
+
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isOpen]);
+
+  function handleDocumentClick(e) {
+    if (
+      e.target.closest('#dropdownUserAvatarButton') ||
+      e.target.closest('#dropdownAvatar')
+    ) {
+      return;
+    }
+    setIsOpen(false);
+  }
+
   function toggleDropdown() {
     setIsOpen(!isOpen);
   }
@@ -30,6 +49,8 @@ export default function Navbar() {
   function signoutHandler() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
   }
 
   return (
@@ -100,7 +121,7 @@ export default function Navbar() {
                   onClick={toggleDropdown}
                 >
                   <img
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 rounded-full hover:scale-110 transition-all delay-200"
                     src="https://i.pravatar.cc/150?img=3"
                     alt="profilepic"
                   />
@@ -140,7 +161,7 @@ export default function Navbar() {
                     <div className="py-2">
                       <Link
                         to="#signout"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         onClick={signoutHandler}
                       >
                         Sign out
