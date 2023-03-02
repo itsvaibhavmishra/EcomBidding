@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,25 @@ export default function Navbar() {
   // for profile dropdown
   const [isOpen, setIsOpen] = useState(false);
 
+  // eslint-disable-next-line
+
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isOpen]);
+
+  function handleDocumentClick(e) {
+    if (
+      e.target.closest('#dropdownUserAvatarButton') ||
+      e.target.closest('#dropdownAvatar')
+    ) {
+      return;
+    }
+    setIsOpen(false);
+  }
+
   function toggleDropdown() {
     setIsOpen(!isOpen);
   }
@@ -31,6 +50,7 @@ export default function Navbar() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
   }
 
   return (
