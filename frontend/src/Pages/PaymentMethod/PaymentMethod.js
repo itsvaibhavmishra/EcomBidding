@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 function PaymentCard({ id, value, logo, label, selected, onClick }) {
   return (
     <div
-      className={`border-2 border-gray-300 rounded-lg p-8 cursor-pointer transition-colors duration-300 flex items-center justify-center flex-col w-96 h-64 ${
+      className={`border-2 border-gray-300 rounded-lg p-8 cursor-pointer transition-colors duration-300 flex items-center justify-center flex-col lg:w-96 lg:h-64 ${
         selected ? 'border-cyan-500 shadow-md' : 'bg-gray-100 hover:bg-white'
       }`}
       onClick={() => onClick(id)}
