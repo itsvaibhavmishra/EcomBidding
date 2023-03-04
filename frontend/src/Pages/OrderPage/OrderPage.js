@@ -1,156 +1,296 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
+import React, { useContext, useEffect, useReducer } from 'react';
 import Loading from '../../Components/Loading/Loading';
+import ErrorMessage from '../../Components/ErrorMessage/ErrorMessage';
+import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: '' };
     case 'FETCH_SUCCESS':
-      return { ...state, products: action.payload, loading: false };
+      return { ...state, loading: false, order: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+
     default:
       return state;
   }
 };
 
-function OrderPage() {
+export default function OrderPage() {
   const { state } = useContext(Store);
   const { userInfo } = state;
 
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+  const params = useParams();
+  const { id: orderId } = params;
+  const navigate = useNavigate();
+
+  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
     loading: true,
+    order: {},
     error: '',
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+    const fetchOrder = async () => {
       try {
-        const { data } = await axios.get('/api/orders/mine', {
-          header: { Authorization: `Bearer ${userInfo.token}` },
+        dispatch({ type: 'FETCH_REQUEST' });
+        const { data } = await axios.get(`/api/orders/${orderId}`, {
+          headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch (error) {
-        dispatch({
-          type: 'FETCH_FAIL',
-          payload: getError(error),
-        });
+      } catch (err) {
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
-    fetchData();
-  }, [userInfo]);
+    if (!userInfo) {
+      return navigate('/signin');
+    }
+    if (!order._id || (order._id && order._id !== orderId)) {
+      fetchOrder();
+    }
+  }, [order, orderId, userInfo, navigate]);
 
-  // for profile dropdown
-  const [isOpen, setIsOpen] = useState(false);
-
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
-
-  return (
+  return loading ? (
+    <Loading />
+  ) : error ? (
+    <ErrorMessage>{error}</ErrorMessage>
+  ) : (
     <div>
       <Helmet>
-        <title>Your Order-EcomBidding</title>
+        <title>Order {orderId}-EcomBidding</title>
       </Helmet>
 
-      {loading ? (
-        <Loading />
-      ) : error ? (
-        <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
-          Your Order Page is empty.{' '}
-          <Link to="/" className="text-cyan-600 font-bold">
-            Go Shopping
-          </Link>
+      <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+        <div className="flex justify-start item-start space-y-2 flex-col">
+          <h1 className="text-3xl light:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
+            Order #{orderId}
+          </h1>
+          <p className="text-base light:text-gray-300 font-medium leading-6 text-gray-600">
+            {new Intl.DateTimeFormat('en-IN', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true,
+              timeZoneName: 'short',
+            }).format(new Date(order.createdAt))}
+          </p>
         </div>
-      ) : (
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Order History</h1>
-
-          {/* Primary card */}
-          <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-4">
-            <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-300 font-medium text-sm">
-              <div className="py-3 px-4">Name</div>
-              <div className="py-3 px-4">Date</div>
-              <div className="py-3 px-4">Total</div>
-              <div className="py-3 px-4">Paid</div>
-              <div className="py-3 px-4">Delivered</div>
-              <div className="py-3 px-4">Actions</div>
-            </div>
-          </div>
-
-          {orders.map((order) => (
-            // Order card
-            <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-8">
-              <div className="grid grid-cols-6 bg-gray-100 text-sm font-medium text-gray-700">
-                <div className="py-4 px-4 flex items-center">
-                  <img
-                    src={order.image}
-                    alt="UserAvatar"
-                    className="rounded-full w-6 h-6 mr-2"
-                  />
-                  <span>{order.name}</span>
-                </div>
-                <div className="py-4 px-4">
-                  {order.createdAt.substring(0, 10)}
-                </div>
-                <div className="py-4 px-4">
-                  <small>₹</small>
-                  {order.totalPrice.toFixed(2)}
-                </div>
+        <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+          <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
+            <div className="flex flex-col justify-start items-start light:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+              <p className="text-lg md:text-xl light:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
+                Customer’s Cart
+              </p>
+              {order.orderItems.map((item) => (
                 <div
-                  className={`py-4 px-4 ${
-                    order.isPaid ? 'text-green-600' : 'text-red-600'
-                  }`}
+                  className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
+                  key={item._id}
                 >
-                  {order.isPaid ? order.paidAt.substring(0, 10) : 'No'}
-                </div>
-                <div
-                  className={`py-4 px-4 ${
-                    order.isDelivered ? 'text-green-600' : 'text-red-600'
-                  }`}
-                >
-                  {order.isDelivered
-                    ? order.deliveredAt.substring(0, 10)
-                    : 'No'}
-                </div>
-                <div className="py-3 px-8 text-center">
-                  <button
-                    type="button"
-                    className="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
-                    onClick={toggleDropdown}
-                  >
-                    <i className="fas fa-ellipsis-v p-[6px] bg-slate-200 rounded-md"></i>
-                  </button>
-                  {isOpen && (
-                    <div className="absolute mt-2 w-28 md:right-auto right-5 bg-white border rounded-md shadow-lg z-10 hidden">
-                      <Link
-                        to={`/order/${order._id}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Details
-                      </Link>
-                      <Link
-                        to={`/products/${order.url}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t"
-                      >
-                        Buy More
-                      </Link>
+                  <div className="pb-4 md:pb-8 w-20">
+                    <img
+                      className="w-full hidden md:block"
+                      src={item.image}
+                      alt={item.name}
+                    />
+                    <img
+                      className="w-full md:hidden"
+                      src={item.image}
+                      alt={item.name}
+                    />
+                  </div>
+                  <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
+                    <div className="w-full flex flex-col justify-start items-start space-y-8">
+                      <h3 className="text-xl light:text-white font-semibold leading-6 text-gray-800">
+                        <Link to={`/product/${item.url}`}>{item.name}</Link>
+                      </h3>
                     </div>
-                  )}
+                    <div className="flex justify-between space-x-8 items-start w-full">
+                      <p className="text-base light:text-white xl:text-lg leading-6">
+                        <small>₹</small>
+                        {item.price}
+                      </p>
+                      <p className="text-base light:text-white xl:text-lg leading-6 text-gray-800">
+                        {item.quantity}
+                      </p>
+                      <p className="text-base light:text-white xl:text-lg font-semibold leading-6 text-gray-800">
+                        <small>₹</small>
+                        {item.quantity * item.price}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
+              <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 light:bg-gray-800 space-y-6">
+                <h3 className="text-xl light:text-white font-semibold leading-5 text-gray-800">
+                  Summary
+                </h3>
+                <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
+                  <div className="flex justify-between w-full">
+                    <p className="text-base light:text-white leading-4 text-gray-800">
+                      Items
+                    </p>
+                    <p className="text-base light:text-gray-300 leading-4 text-gray-600">
+                      <small>₹</small>
+                      {order.itemsPrice.toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center w-full">
+                    <p className="text-base light:text-white leading-4 text-gray-800">
+                      Tax
+                    </p>
+                    <p className="text-base light:text-gray-300 leading-4 text-gray-600">
+                      <small>₹</small>
+                      {order.taxPrice.toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center w-full">
+                    <p className="text-base light:text-white leading-4 text-gray-800">
+                      Shipping
+                    </p>
+                    <p className="text-base light:text-gray-300 leading-4 text-gray-600">
+                      <small>₹</small>
+                      {order.shippingPrice.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-base light:text-white font-semibold leading-4 text-gray-800">
+                    Total
+                  </p>
+                  <p className="text-base light:text-gray-300 font-semibold leading-4 text-gray-600">
+                    <small>₹</small>
+                    {order.totalPrice.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 light:bg-gray-800 space-y-6">
+                <h3 className="text-xl light:text-white font-semibold leading-5 text-gray-800">
+                  Shipping
+                </h3>
+                <div className="flex justify-between items-start w-full">
+                  <div className="flex justify-center items-center space-x-4">
+                    <div className="w-8 h-8">
+                      <img
+                        className="w-full h-full"
+                        alt="logo"
+                        src="https://i.ibb.co/L8KSdNQ/image-3.png"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start items-center">
+                      <p className="text-lg leading-6 light:text-white font-semibold text-gray-800">
+                        Payment Method
+                        <br />
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-lg font-semibold leading-6 light:text-white text-gray-800">
+                    {order.paymentMethod}
+                  </p>
+                </div>
+                <div className="w-full flex justify-center items-center">
+                  <div
+                    className={`light:bg-white light:text-gray-800 light:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full text-center font-medium leading-4 text-white 
+                    ${
+                      order.isPaid
+                        ? 'bg-green-500 hover:bg-green-600 duration-500'
+                        : 'bg-red-500 hover:bg-red-600 duration-500'
+                    }
+                    `}
+                  >
+                    {order.isPaid ? `Paid at: ${order.paidAt}` : 'NOT PAID'}
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+          <div className="bg-gray-50 light:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+            <h3 className="text-xl light:text-white font-semibold leading-5 text-gray-800">
+              Customer
+            </h3>
+            <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
+              <div className="flex flex-col justify-start items-start flex-shrink-0">
+                <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
+                  <img
+                    src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
+                    alt="avatar"
+                  />
+                  <div className="flex justify-start items-start flex-col space-y-2">
+                    <p className="text-base light:text-white font-semibold leading-4 text-left text-gray-800">
+                      {userInfo.name}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-center text-gray-800 light:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
+                  <img
+                    className="light:hidden"
+                    src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg"
+                    alt="email"
+                  />
+                  <img
+                    className="hidden light:block"
+                    src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1light.svg"
+                    alt="email"
+                  />
+                  <p className="cursor-pointer text-sm leading-5 ">
+                    {userInfo.email}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
+                <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
+                  <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
+                    <p className="text-base light:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
+                      Shipping Address
+                    </p>
+                    <p className="w-48 lg:w-full light:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                      {order.shippingAddress.fullName}, <br />
+                      {order.shippingAddress.address},
+                      {order.shippingAddress.city}, <br />
+                      {order.shippingAddress.pinCode},
+                      {order.shippingAddress.country}
+                    </p>
+                  </div>
+                  <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
+                    <p className="text-base light:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
+                      Billing Address
+                    </p>
+                    <p className="w-48 lg:w-full light:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                      {order.shippingAddress.fullName}, <br />
+                      {order.shippingAddress.address},{' '}
+                      {order.shippingAddress.city}, <br />
+                      {order.shippingAddress.pinCode},{' '}
+                      {order.shippingAddress.country}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex w-full justify-center items-center md:justify-start md:items-start">
+                  <div
+                    className={`mt-6 md:mt-0 light:border-white light:hover:bg-gray-900 light:bg-transparent light:text-white py-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border font-medium w-96 2xl:w-full text-center leading-4 text-white ${
+                      order.isPaid
+                        ? 'bg-green-500 hover:bg-green-600 duration-500'
+                        : 'bg-red-500 hover:bg-red-600 duration-500'
+                    }`}
+                  >
+                    {order.isDelivered
+                      ? `Delivered at: ${order.deliveredAt}`
+                      : 'NOT DELIVERED'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
-
-export default OrderPage;

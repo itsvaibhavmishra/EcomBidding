@@ -48,7 +48,7 @@ function LoginPage() {
     <div className="relative">
       <ToastContainer position="bottom-center" limit={1} />
       <Helmet>
-        <title>Sign In</title>
+        <title>Sign In-Bidding</title>
       </Helmet>
 
       <h2 className="absolute top-[5%] right-[5%] text-3xl font-bold">

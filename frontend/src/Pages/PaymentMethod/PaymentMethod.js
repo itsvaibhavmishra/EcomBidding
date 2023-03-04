@@ -26,7 +26,7 @@ function PaymentCard({ id, value, logo, label, selected, onClick }) {
       >
         <img
           className={`w-full h-auto filter grayscale ${
-            selected ? 'filter-none' : ''
+            selected ? 'filter-none duration-500' : ''
           }`}
           src={logo}
           alt={label}
@@ -52,7 +52,7 @@ export default function PaymentPage() {
   }, [shippingAddress, navigate]);
 
   const [paymentMethodName, setPaymentMethod] = useState(
-    paymentMethod || 'paypal'
+    paymentMethod || 'PayPal'
   );
 
   // selected card
@@ -82,26 +82,26 @@ export default function PaymentPage() {
         <li></li>
       </ul>
       <Helmet>
-        <title>Payment-Ecom</title>
+        <title>Payment-EcomBidding</title>
       </Helmet>
       <CheckoutSteps step1 step2 step3 />
       <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold mb-8">Select Payment Method</h1>
         <div className="flex space-x-16 justify-center items-center">
           <PaymentCard
-            id="paypal"
-            value="paypal"
+            id="PayPal"
+            value="PayPal"
             logo="https://www.freepnglogos.com/uploads/paypal-logo-png-1.png"
             label="PayPal"
-            selected={paymentMethodName === 'paypal'}
+            selected={paymentMethodName === 'PayPal'}
             onClick={handleCardClick}
           />
           <PaymentCard
-            id="stripe"
-            value="stripe"
+            id="Stripe"
+            value="Stripe"
             logo="https://stripe.com/img/v3/home/social.png"
             label="Stripe"
-            selected={paymentMethodName === 'stripe'}
+            selected={paymentMethodName === 'Stripe'}
             onClick={handleCardClick}
           />
         </div>
