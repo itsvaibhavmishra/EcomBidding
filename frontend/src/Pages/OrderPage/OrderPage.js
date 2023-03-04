@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import Loading from '../../Components/Loading/Loading';
-import ErrorMessage from '../../Components/ErrorMessage/ErrorMessage';
+import LoadingDots from '../../Components/LoadingDots/LoadingDots';
+import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -15,6 +18,15 @@ const reducer = (state, action) => {
       return { ...state, loading: false, order: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+
+    case 'PAY_REQUEST':
+      return { ...state, loadingPay: true };
+    case 'PAY_SUCCESS':
+      return { ...state, loadingPay: false, successPay: true };
+    case 'PAY_FAIL':
+      return { ...state, loadingPay: false };
+    case 'PAY_RESET':
+      return { ...state, loadingPay: false, successPay: false };
 
     default:
       return state;
@@ -29,11 +41,56 @@ export default function OrderPage() {
   const { id: orderId } = params;
   const navigate = useNavigate();
 
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
-    loading: true,
-    order: {},
-    error: '',
-  });
+  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      order: {},
+      error: '',
+      successPay: false,
+      loadingPay: false,
+    });
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const totalPriceUSD = order.totalPrice / 81.71;
+
+  const createOrder = (data, action) => {
+    return action.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: totalPriceUSD.toFixed(2) },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID; // orderID is coming from PayPal
+      });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async function (details) {
+      try {
+        dispatch({ type: 'PAY_REQUEST' });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        // after payment is successful
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+        toast.success('Order Paid Succefully🎉');
+      } catch (err) {
+        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+        toast.error(getError(err));
+      }
+    });
+  };
+  function onError(err) {
+    toast.error(getError(err));
+  }
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -50,15 +107,33 @@ export default function OrderPage() {
     if (!userInfo) {
       return navigate('/signin');
     }
-    if (!order._id || (order._id && order._id !== orderId)) {
+    if (!order._id || successPay || (order._id && order._id !== orderId)) {
       fetchOrder();
+      if (successPay) {
+        dispatch({ type: 'PAY_RESET' });
+      }
+    } else {
+      const loadPayPalScript = async () => {
+        const { data: clientId } = await axios.get('/api/keys/paypal', {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      loadPayPalScript();
     }
-  }, [order, orderId, userInfo, navigate]);
+  }, [order, orderId, userInfo, navigate, paypalDispatch, successPay]);
 
   return loading ? (
     <Loading />
   ) : error ? (
-    <ErrorMessage>{error}</ErrorMessage>
+    <ErrorPage />
   ) : (
     <div>
       <Helmet>
@@ -161,16 +236,35 @@ export default function OrderPage() {
                       {order.shippingPrice.toFixed(2)}
                     </p>
                   </div>
+                  <p className="text-xs light:text-white leading-4 text-center text-gray-300">
+                    Paypal does not accept payments in INR
+                  </p>
                 </div>
                 <div className="flex justify-between items-center w-full">
                   <p className="text-base light:text-white font-semibold leading-4 text-gray-800">
-                    Total
+                    Total in USD
                   </p>
                   <p className="text-base light:text-gray-300 font-semibold leading-4 text-gray-600">
-                    <small>₹</small>
-                    {order.totalPrice.toFixed(2)}
+                    <small>$</small>
+                    {totalPriceUSD.toFixed(2)}
                   </p>
                 </div>
+                {!order.isPaid && (
+                  <div className=" w-full">
+                    {isPending ? (
+                      <LoadingDots />
+                    ) : (
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        />
+                      </div>
+                    )}
+                    {loadingPay && <LoadingDots />}
+                  </div>
+                )}
               </div>
               <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 light:bg-gray-800 space-y-6">
                 <h3 className="text-xl light:text-white font-semibold leading-5 text-gray-800">
@@ -206,7 +300,17 @@ export default function OrderPage() {
                     }
                     `}
                   >
-                    {order.isPaid ? `Paid at: ${order.paidAt}` : 'NOT PAID'}
+                    {order.isPaid
+                      ? `Paid at: ${new Intl.DateTimeFormat('en-IN', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          hour12: true,
+                          timeZoneName: 'short',
+                        }).format(new Date(order.paidAt))}`
+                      : 'NOT PAID'}
                   </div>
                 </div>
               </div>
@@ -231,16 +335,8 @@ export default function OrderPage() {
                 </div>
 
                 <div className="flex justify-center text-gray-800 light:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
-                  <img
-                    className="light:hidden"
-                    src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg"
-                    alt="email"
-                  />
-                  <img
-                    className="hidden light:block"
-                    src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1light.svg"
-                    alt="email"
-                  />
+                  <i className="far fa-envelope light:hidden text-xl"></i>
+                  <i className="far fa-envelope hidden light:block text-xl"></i>
                   <p className="cursor-pointer text-sm leading-5 ">
                     {userInfo.email}
                   </p>
@@ -276,13 +372,21 @@ export default function OrderPage() {
                 <div className="flex w-full justify-center items-center md:justify-start md:items-start">
                   <div
                     className={`mt-6 md:mt-0 light:border-white light:hover:bg-gray-900 light:bg-transparent light:text-white py-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border font-medium w-96 2xl:w-full text-center leading-4 text-white ${
-                      order.isPaid
+                      order.isDelivered
                         ? 'bg-green-500 hover:bg-green-600 duration-500'
                         : 'bg-red-500 hover:bg-red-600 duration-500'
                     }`}
                   >
                     {order.isDelivered
-                      ? `Delivered at: ${order.deliveredAt}`
+                      ? `Delivered at: ${new Intl.DateTimeFormat('en-IN', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          hour12: true,
+                          timeZoneName: 'short',
+                        }).format(new Date(order.deliveredAt))}`
                       : 'NOT DELIVERED'}
                   </div>
                 </div>
