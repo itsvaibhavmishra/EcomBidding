@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import Loading from '../../Components/Loading/Loading';
 import LoadingDots from '../../Components/LoadingDots/LoadingDots';
-import ErrorMessage from '../../Components/ErrorMessage/ErrorMessage';
+import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
@@ -133,7 +133,7 @@ export default function OrderPage() {
   return loading ? (
     <Loading />
   ) : error ? (
-    <ErrorMessage>{error}</ErrorMessage>
+    <ErrorPage />
   ) : (
     <div>
       <Helmet>
