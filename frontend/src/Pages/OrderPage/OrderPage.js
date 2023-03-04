@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import Loading from '../../Components/Loading/Loading';
 import ErrorMessage from '../../Components/ErrorMessage/ErrorMessage';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
@@ -35,6 +36,8 @@ export default function OrderPage() {
     error: '',
   });
 
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -52,8 +55,23 @@ export default function OrderPage() {
     }
     if (!order._id || (order._id && order._id !== orderId)) {
       fetchOrder();
+    } else {
+      const loadPayPalScript = async () => {
+        const { data: clientId } = await axios.get('/api/keys/paypal', {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'INR',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      loadPayPalScript();
     }
-  }, [order, orderId, userInfo, navigate]);
+  }, [order, orderId, userInfo, navigate, paypalDispatch]);
 
   return loading ? (
     <Loading />
