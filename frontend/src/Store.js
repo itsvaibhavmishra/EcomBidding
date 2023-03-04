@@ -47,6 +47,10 @@ function reducer(state, action) {
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
+    case 'CART_CLEAR': {
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
+    }
+
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload };
 

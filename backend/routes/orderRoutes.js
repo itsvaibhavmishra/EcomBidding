@@ -14,17 +14,22 @@ orderRouter.post(
         product: item._id,
       })),
 
-      shippingAddress: res.body.shippingAddress,
-      paymentMethod: res.body.paymentMethod,
-      itemsPrice: res.body.itemsPrice,
-      shippingPrice: res.body.shippingPrice,
-      taxPrice: res.body.taxPrice,
-      totalPrice: res.body.totalPrice,
-      user: res.body._id,
+      shippingAddress: req.body.shippingAddress,
+      paymentMethod: req.body.paymentMethod,
+      itemsPrice: req.body.itemsPrice,
+      shippingPrice: req.body.shippingPrice,
+      taxPrice: req.body.taxPrice,
+      totalPrice: req.body.totalPrice,
+      user: req.user._id,
     });
 
     const order = await newOrder.save();
-    res.status(201).send({ message: 'New Order Created', order });
+    res
+      .status(201)
+      .send({
+        message: 'New Order Created',
+        order: order.toObject({ getters: true }),
+      });
   })
 );
 

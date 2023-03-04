@@ -10,6 +10,7 @@ import CartPage from './Pages/CartPage/CartPage';
 import OrderPage from './Pages/OrderPage/OrderPage';
 import AddressPage from './Pages/AddressPage/AddressPage';
 import PaymentMethod from './Pages/PaymentMethod/PaymentMethod';
+import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 
 function App() {
   return (
@@ -57,7 +58,6 @@ function App() {
             </>
           }
         />
-        <Route path="/shipping" element={<Header />} />
         <Route
           path="/payment"
           element={
@@ -69,7 +69,17 @@ function App() {
         />
 
         <Route
-          path="/orderhistory"
+          path="/placeorder"
+          element={
+            <>
+              <Header />
+              <PlaceOrder />
+            </>
+          }
+        />
+
+        <Route
+          path="/order/:id"
           element={
             <>
               <Header />

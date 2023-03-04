@@ -121,7 +121,7 @@ export default function Navbar() {
                   onClick={toggleDropdown}
                 >
                   <img
-                    className="w-8 h-8 rounded-full hover:scale-110 transition-all delay-200"
+                    className="w-8 h-8 rounded-full hover:scale-110 duration-200"
                     src="https://i.pravatar.cc/150?img=3"
                     alt="profilepic"
                   />
