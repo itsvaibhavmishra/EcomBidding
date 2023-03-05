@@ -183,7 +183,7 @@ export default function OrderPage() {
                   <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
                     <div className="w-full flex flex-col justify-start items-start space-y-8">
                       <h3 className="text-xl light:text-white font-semibold leading-6 text-gray-800">
-                        <Link to={`/product/${item.url}`}>{item.name}</Link>
+                        <Link to={`/products/${item.url}`}>{item.name}</Link>
                       </h3>
                     </div>
                     <div className="flex justify-between space-x-8 items-start w-full">
