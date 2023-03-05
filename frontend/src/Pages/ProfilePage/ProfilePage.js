@@ -33,6 +33,18 @@ function ProfilePage() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const passwordRegex =
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        'Password must be at least 8 characters long and contain at least one uppercase,lowercase letter, and one special character.'
+      );
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match.');
+      return;
+    }
     try {
       const { data } = await axios.put(
         `/api/users/profile`,
