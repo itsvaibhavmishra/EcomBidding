@@ -51,8 +51,8 @@ export default function CartPage() {
                 </Link>
               </div>
             ) : (
-              <div className="bg-white border-b border-gray-200 shadow sm:rounded-lg hover:transform hover:scale-105 duration-500">
-                <div className="overflow-x-auto max-w-screen-md">
+              <div className="bg-white border-b border-gray-200 shadow sm:rounded-lg hover:transform hover:scale-105 backface-hidden duration-500">
+                <div className="overflow-x-auto max-w-full">
                   <table className="min-w-full divide-y divide-gray-200 ">
                     <thead className="bg-gray-50">
                       <tr className="hidden md:table-row">
@@ -167,7 +167,7 @@ export default function CartPage() {
               </div>
             )}
           </div>
-          <div className="md:col-span-4 hover:transform hover:scale-105 duration-500">
+          <div className="md:col-span-4 hover:transform hover:scale-105 duration-500 mx-2">
             <div className="bg-white shadow-lg sm:rounded-lg md:-mt-3">
               <div className="px-4 py-5 sm:p-6">
                 <h2 className="mb-4 text-lg font-medium text-gray-900">
