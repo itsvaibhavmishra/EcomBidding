@@ -12,6 +12,7 @@ import AddressPage from './Pages/AddressPage/AddressPage';
 import PaymentMethod from './Pages/PaymentMethod/PaymentMethod';
 import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './Pages/OrderHistory/OrderHistory';
+import ProfilePage from './Pages/ProfilePage/ProfilePage';
 
 function App() {
   return (
@@ -95,6 +96,16 @@ function App() {
             <>
               <Header />
               <OrderHistory />
+            </>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Header />
+              <ProfilePage />
             </>
           }
         />
