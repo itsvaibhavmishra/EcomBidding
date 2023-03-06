@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../../Store';
 import './Header.css';
 
 export default function Navbar() {
   const [text, setText] = useState('');
+  const navigate = useNavigate();
 
-  const searchClicked = () => {
+  const searchClicked = (e) => {
+    navigate(text ? `/search/?query=${text}` : '/');
     setText('');
     console.log(text);
   };
@@ -74,6 +76,11 @@ export default function Navbar() {
                 placeholder="Search"
                 className="bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 mb-4 md:mt-0 md:mb-0 sm:mb-4 lg:w-80"
                 onChange={(event) => handleTextChange(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    searchClicked();
+                  }
+                }}
                 value={text}
               />
               <svg
