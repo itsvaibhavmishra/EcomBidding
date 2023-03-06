@@ -5,6 +5,7 @@ import Product from '../../Components/Product/Product';
 import { Helmet } from 'react-helmet-async';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import Categories from '../../Components/Categories/Categories';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,6 +50,7 @@ function Home() {
         <h2 className="text-gray-600 inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
           Listed Products
         </h2>
+        <Categories />
       </div>
 
       <div className="products flex flex-wrap justify-center">
