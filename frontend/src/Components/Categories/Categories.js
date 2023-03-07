@@ -69,12 +69,12 @@ function Categories() {
           </li>
           <li style={{ '--index': 5 }} className="l__i">
             <Link
-              to={`/search?category=Others`}
+              to={`/search?category=all`}
               rel="noreferrer noopener"
               className="__a"
             >
-              <span className="__span">
-                <i className="__i"></i>Others
+              <span className="__span whitespace-nowrap">
+                <i className="__i"></i>Show All
               </span>
             </Link>
           </li>

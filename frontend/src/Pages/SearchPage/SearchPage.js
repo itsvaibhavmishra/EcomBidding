@@ -126,95 +126,15 @@ export default function SearchPage() {
       <Helmet>
         <title>Search Result-EcomBidding</title>
       </Helmet>
-      <div className="flex flex-wrap justify-between">
-        <div className="w-full md:w-1/4 mb-8 md:mb-0">
-          <h3 className="text-lg font-medium mb-4">Department</h3>
-          <ul className="mb-8 overflow-y-auto">
-            <li>
-              <Link
-                to={getFilterUrl({ category: 'all' })}
-                className={`${
-                  category === 'all' ? 'font-bold' : ''
-                } hover:text-blue-500`}
-              >
-                Any
-              </Link>
-            </li>
-            {categories.map((c) => (
-              <li key={c}>
-                <Link
-                  to={getFilterUrl({ category: c })}
-                  className={`${
-                    category === c ? 'font-bold' : ''
-                  } hover:text-blue-500`}
-                >
-                  {c}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <h3 className="text-lg font-medium mb-4">Price</h3>
-          <ul className="mb-8">
-            <li>
-              <Link
-                to={getFilterUrl({ price: 'all' })}
-                className={`${
-                  price === 'all' ? 'font-bold' : ''
-                } hover:text-blue-500`}
-              >
-                Any
-              </Link>
-            </li>
-            {prices.map((p) => (
-              <li key={p.value}>
-                <Link
-                  to={getFilterUrl({ price: p.value })}
-                  className={`${
-                    price === p.value ? 'font-bold' : ''
-                  } hover:text-blue-500`}
-                >
-                  {p.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <h3 className="text-lg font-medium mb-4">Avg. Customer Review</h3>
-          <ul>
-            {ratings.map((r) => (
-              <li key={r.name}>
-                <Link
-                  to={getFilterUrl({ rating: r.rating })}
-                  className={`${
-                    `${r.rating}` === `${rating}` ? 'font-bold' : ''
-                  } hover:text-blue-500`}
-                >
-                  <Rating caption={' & up'} rating={r.rating} />
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link
-                to={getFilterUrl({ rating: 'all' })}
-                className={`${
-                  rating === 'all' ? 'font-bold' : ''
-                } hover:text-blue-500`}
-              >
-                <Rating caption={' & up'} rating={0} />
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="w-full md:w-3/4">
-          {loading ? (
-            <Loading />
-          ) : error ? (
-            <ErrorPage />
-          ) : (
-            <>
-              <div className="flex justify-between items-center mb-3">
+      <div>
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <ErrorPage />
+        ) : (
+          <>
+            <div className="bg-cyan-500 py-3 px-6 shadow-md mb-4 flex text-sm justify-between items-center">
+              <div className="text-white">
                 <div>
                   {countProducts === 0 ? 'No' : countProducts} Results Found
                   {query !== 'all' && ' : ' + query}
@@ -226,59 +146,169 @@ export default function SearchPage() {
                   rating !== 'all' ||
                   price !== 'all' ? (
                     <button
-                      className="bg-gray-200 text-gray-600 text-sm px-2 py-1 ml-3"
+                      className="text-white text-sm px-2 ml-3"
                       onClick={() => navigate('/search')}
                     >
-                      <i className="fas fa-times-circle"></i>
+                      <i className="fas fa-times-circle hover:animate-pulse"></i>
                     </button>
                   ) : null}
                 </div>
-                <div className="text-end">
-                  <span>Sort by</span>
-                  <select
-                    className="bg-gray-200 text-gray-600 py-1 pl-2 pr-8 rounded-md ml-3"
-                    value={order}
-                    onChange={(e) => {
-                      navigate(getFilterUrl({ order: e.target.value }));
-                    }}
-                  >
-                    <option value="newest">Newest Arrivals</option>
-                    <option value="lowest">Price: Low to High</option>
-                    <option value="highest">Price: High to Low</option>
-                    <option value="toprated">Avg. Customer Reviews</option>
-                  </select>
+              </div>
+              <div className="relative ">
+                <select
+                  className="block appearance-none w-full text-xs bg-white border border-gray-400 hover:border-cyan-300 hover:shadow-cyan-300 px-4 py-1 pr-8 rounded-md shadow leading-tight focus:outline-none focus:shadow-outline"
+                  value={order}
+                  onChange={(e) => {
+                    navigate(getFilterUrl({ order: e.target.value }));
+                  }}
+                >
+                  <option value="newest">Sort by: Newest Arrivals</option>
+                  <option value="lowest">Price: low to high</option>
+                  <option value="highest">Price: high to low</option>
+                  <option value="toprated">Avg. Customer Reviews</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <i className="fas fa-sort"></i>
                 </div>
               </div>
+            </div>
+
+            <div className="flex mb-4">
+              <div className="w-auto lg:border-r-2 md:w-1/4 px-4">
+                <h2 className="font-bold text-xl text-gray-700 mb-2">
+                  Categories
+                </h2>
+
+                <Link
+                  to={getFilterUrl({ category: 'all' })}
+                  className={`${
+                    category === 'all'
+                      ? 'bg-gray-200 text-black w-full'
+                      : 'text-gray-600 hover:text-cyan-500'
+                  } flex items-center`}
+                >
+                  <span className="mr-2 ml-6">
+                    <i className="fas fa-list"></i>
+                  </span>
+                  Any
+                </Link>
+
+                <ul>
+                  {categories.map((c) => (
+                    <li key={c} className="mb-1 ml-4">
+                      <Link
+                        to={getFilterUrl({ category: c })}
+                        className={`${
+                          category === c
+                            ? 'bg-cyan-500 text-white w-full'
+                            : 'text-gray-600 hover:text-cyan-500'
+                        } flex items-center`}
+                      >
+                        <span className="mr-2"></span>
+                        {c}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 className="font-bold text-xl text-gray-700 mb-2">Price</h2>
+
+                <Link
+                  to={getFilterUrl({ price: 'all' })}
+                  className={`${
+                    price === 'all'
+                      ? 'bg-gray-200 text-black w-full'
+                      : 'text-gray-600 hover:text-cyan-500'
+                  } flex items-center`}
+                >
+                  <span className="mr-2 ml-6">
+                    <i className="fas fa-list"></i>
+                  </span>
+                  Any
+                </Link>
+
+                <ul>
+                  {prices.map((p) => (
+                    <li key={p.value} className="mb-1 ml-4">
+                      <Link
+                        to={getFilterUrl({ price: p.value })}
+                        className={`${
+                          price === p.value
+                            ? 'bg-cyan-500 text-white w-full'
+                            : 'text-gray-600 hover:text-cyan-500'
+                        } flex items-center`}
+                      >
+                        <span className="mr-2"></span>
+                        {p.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 className="font-bold text-xl text-gray-700 mb-2">
+                  Avg. Customer Review
+                </h2>
+
+                <Link
+                  to={getFilterUrl({ rating: 'all' })}
+                  className={`${
+                    rating === 'all'
+                      ? 'bg-gray-200 text-black w-full'
+                      : 'text-gray-600 hover:text-cyan-500'
+                  } flex items-center`}
+                >
+                  <span className="mr-2 ml-6">
+                    <i className="far fa-star"></i>
+                  </span>
+                  and above
+                </Link>
+
+                <ul>
+                  {ratings.map((r) => (
+                    <li key={r.name} className="mb-1 ml-4">
+                      <Link
+                        to={getFilterUrl({ rating: r.rating })}
+                        className={`${
+                          `${r.rating}` === `${rating}` ? 'font-bold' : ''
+                        } flex items-center text-gray-600 hover:text-blue-600`}
+                      >
+                        <span className="mr-2"></span>
+                        <Rating caption={' & up'} rating={r.rating} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               {products.length === 0 && (
-                <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
-                  No Product Found.
+                <div className="p-4 mx-auto my-auto border h-full rounded-md bg-gray-100 text-gray-700">
+                  No Product Found
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:ml-8">
                 {products.map((product) => (
                   <div key={product._id}>
                     <Product product={product} />
                   </div>
                 ))}
               </div>
-
-              <div className="flex justify-center mt-5">
-                {[...Array(pages).keys()].map((x) => (
-                  <Link
-                    key={x + 1}
-                    className={`bg-gray-200 text-gray-600 py-1 px-2 rounded-md mx-1 ${
-                      Number(page) === x + 1 ? 'bg-gray-600 text-white' : ''
-                    }`}
-                    to={getFilterUrl({ page: x + 1 })}
-                  >
-                    {x + 1}
-                  </Link>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+            </div>
+            <div className="flex justify-center mt-5">
+              {[...Array(pages).keys()].map((x) => (
+                <Link
+                  key={x + 1}
+                  className={`bg-gray-200 text-gray-600 py-1 px-2 rounded-md mx-1 ${
+                    Number(page) === x + 1 ? 'bg-cyan-600 text-white' : ''
+                  }`}
+                  to={getFilterUrl({ page: x + 1 })}
+                >
+                  {x + 1}
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
