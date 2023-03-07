@@ -88,11 +88,13 @@ export default function OrderHistory() {
                     <img
                       src={item.image}
                       alt="User Avatar"
-                      className="rounded-full w-6 h-6 mr-[-15px] hidden md:flex"
+                      className="rounded-full w-6 h-6 mr-[-15px] md:flex"
                       key={item._id}
                     />
                   ))}
-                  <span className="truncate ml-0 md:ml-8">{order._id}</span>
+                  <span className="truncate ml-0 sm:ml-8 hidden lg:block">
+                    {order._id}
+                  </span>
                 </div>
                 <div className="py-4 px-4">
                   {order.createdAt.substring(0, 10)}

@@ -190,7 +190,7 @@ export default function SearchPage() {
                   <span className="mr-2 ml-6">
                     <i className="fas fa-list"></i>
                   </span>
-                  Any
+                  All
                 </Link>
 
                 <ul>
@@ -224,7 +224,7 @@ export default function SearchPage() {
                   <span className="mr-2 ml-6">
                     <i className="fas fa-list"></i>
                   </span>
-                  Any
+                  All
                 </Link>
 
                 <ul>

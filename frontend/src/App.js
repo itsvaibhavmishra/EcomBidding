@@ -14,6 +14,7 @@ import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './Pages/OrderHistory/OrderHistory';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import SearchPage from './Pages/SearchPage/SearchPage';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   return (
@@ -86,7 +87,9 @@ function App() {
           element={
             <>
               <Header />
-              <OrderPage />
+              <ProtectedRoute>
+                <OrderPage />
+              </ProtectedRoute>
             </>
           }
         />
@@ -96,7 +99,9 @@ function App() {
           element={
             <>
               <Header />
-              <OrderHistory />
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
             </>
           }
         />
@@ -106,7 +111,9 @@ function App() {
           element={
             <>
               <Header />
-              <ProfilePage />
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             </>
           }
         />

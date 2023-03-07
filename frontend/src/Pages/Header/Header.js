@@ -23,6 +23,7 @@ export default function Navbar() {
 
   // for profile dropdown
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAdmin, setIsOpenAdmin] = useState(false);
 
   // eslint-disable-next-line
 
@@ -33,6 +34,13 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isOpenAdmin]);
+
   function handleDocumentClick(e) {
     if (
       e.target.closest('#dropdownUserAvatarButton') ||
@@ -41,10 +49,15 @@ export default function Navbar() {
       return;
     }
     setIsOpen(false);
+    setIsOpenAdmin(false);
   }
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
+  }
+
+  function toggleDropdownAdmin() {
+    setIsOpenAdmin(!isOpenAdmin);
   }
 
   function signoutHandler() {
@@ -116,9 +129,74 @@ export default function Navbar() {
             <Link to="/" className="mr-5 hover:text-gray-900">
               Seller
             </Link>
-            <Link to="/" className="hover:text-gray-900 mr-6">
-              Admin
-            </Link>
+
+            {userInfo && userInfo.isAdmin && (
+              <div to="/" className="hover:text-gray-900 mr-6">
+                <button
+                  id="dropdownUserAvatarButton"
+                  data-dropdown-toggle="dropdownAvatar"
+                  className="flex items-center mr-2 hover:text-gray-900 focus:outline-none cursor-pointer"
+                  onClick={toggleDropdownAdmin}
+                >
+                  Admin &nbsp;
+                  <i className="fas fa-angle-down"></i>
+                </button>
+                {isOpenAdmin && (
+                  <div
+                    id="dropdownAvatar"
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 sm:left-auto sm:right-0"
+                  >
+                    <div className="px-4 py-3 text-sm text-gray-900 mt-1">
+                      <span className="bg-red-500 text-white px-2">
+                        {userInfo.name}
+                      </span>
+                      <div className="font-medium truncate">
+                        {userInfo.email}
+                      </div>
+                    </div>
+                    <ul
+                      className="py-2 text-sm text-gray-700"
+                      aria-labelledby="dropdownUserAvatarButton"
+                    >
+                      <li>
+                        <Link
+                          to="/dashboard"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/productlist"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Products
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/orderlist"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Orders
+                        </Link>
+                      </li>
+                    </ul>
+                    <div className="py-2">
+                      <Link
+                        to="/userlist"
+                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        onClick={signoutHandler}
+                      >
+                        Manage Users
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {userInfo ? (
               <div className="relative group">
                 <button
