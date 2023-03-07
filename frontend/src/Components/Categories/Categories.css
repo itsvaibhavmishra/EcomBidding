@@ -20,7 +20,7 @@
 }
 
 .__a {
-  background: hsla(195, 100%, 57%, 0.877);
+  background: hsla(186, 87%, 43%, 0.605);
   display: inline-block;
   padding: var(--size-2) var(--size-4);
   border-radius: var(--radius-5);
@@ -58,7 +58,7 @@
 
 .l__i:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4), :nth-of-type(5))
   a:is(:hover, :focus) {
-  background: #4b5563;
+  background: #4b5563b1;
   color: white;
 }
 

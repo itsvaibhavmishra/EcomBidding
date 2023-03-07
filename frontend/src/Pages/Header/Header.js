@@ -12,7 +12,6 @@ export default function Navbar() {
   const searchClicked = (e) => {
     navigate(text ? `/search/?query=${text}` : '/');
     setText('');
-    console.log(text);
   };
 
   const handleTextChange = (value) => {

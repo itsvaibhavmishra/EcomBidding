@@ -50,23 +50,27 @@ function Home() {
         <h2 className="text-gray-600 inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
           Listed Products
         </h2>
-        <Categories />
       </div>
 
-      <div className="products flex flex-wrap justify-center">
+      <div className="text-center">
         {loading ? (
           <Loading />
         ) : error ? (
           <ErrorPage />
         ) : (
-          products.map((product) => (
-            <div
-              key={product.url}
-              className="hover:transform hover:scale-105 duration-500"
-            >
-              <Product product={product} />
+          <>
+            <Categories />
+            <div className="products flex flex-wrap justify-center">
+              {products.map((product) => (
+                <div
+                  key={product.url}
+                  className="hover:transform hover:scale-105 duration-500"
+                >
+                  <Product product={product} />
+                </div>
+              ))}
             </div>
-          ))
+          </>
         )}
       </div>
     </div>
