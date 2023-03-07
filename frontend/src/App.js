@@ -13,6 +13,7 @@ import PaymentMethod from './Pages/PaymentMethod/PaymentMethod';
 import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './Pages/OrderHistory/OrderHistory';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import SearchPage from './Pages/SearchPage/SearchPage';
 
 function App() {
   return (
@@ -106,6 +107,16 @@ function App() {
             <>
               <Header />
               <ProfilePage />
+            </>
+          }
+        />
+
+        <Route
+          path="/search"
+          element={
+            <>
+              <Header />
+              <SearchPage />
             </>
           }
         />

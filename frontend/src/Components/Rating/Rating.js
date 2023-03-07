@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Rating(props) {
-  const { rating, reviews } = props;
+  const { rating, reviews, caption } = props;
   return (
     <div className="rating flex justify-between">
       <span>
@@ -59,7 +59,11 @@ function Rating(props) {
           }
         />
       </span>
-      <span className="ml-auto"> {reviews} reviews</span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span className="ml-auto">{' ' + reviews + ' reviews'}</span>
+      )}
     </div>
   );
 }

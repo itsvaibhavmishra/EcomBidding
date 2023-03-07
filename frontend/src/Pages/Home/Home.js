@@ -5,6 +5,7 @@ import Product from '../../Components/Product/Product';
 import { Helmet } from 'react-helmet-async';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import Categories from '../../Components/Categories/Categories';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -51,20 +52,25 @@ function Home() {
         </h2>
       </div>
 
-      <div className="products flex flex-wrap justify-center">
+      <div className="text-center">
         {loading ? (
           <Loading />
         ) : error ? (
           <ErrorPage />
         ) : (
-          products.map((product) => (
-            <div
-              key={product.url}
-              className="hover:transform hover:scale-105 duration-500"
-            >
-              <Product product={product} />
+          <>
+            <Categories />
+            <div className="products flex flex-wrap justify-center">
+              {products.map((product) => (
+                <div
+                  key={product.url}
+                  className="hover:transform hover:scale-105 duration-500"
+                >
+                  <Product product={product} />
+                </div>
+              ))}
             </div>
-          ))
+          </>
         )}
       </div>
     </div>

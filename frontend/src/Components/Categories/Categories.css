@@ -1,0 +1,77 @@
+@import url(https://unpkg.com/open-props/open-props.min.css);
+
+* {
+  box-sizing: border-box;
+}
+
+.u__l {
+  padding: 0;
+  display: inline-grid;
+  grid-auto-flow: column;
+  list-style-type: none;
+  grid-template-columns: auto repeat(4, calc((var(--active, 0) * 130px) + 10px));
+  transition: grid-template-columns 0.35s var(--ease-elastic-1);
+}
+
+.l__i {
+  display: grid;
+  justify-content: end;
+  z-index: calc(var(--count) - var(--index));
+}
+
+.__a {
+  background: hsla(186, 87%, 43%, 0.605);
+  display: inline-block;
+  padding: var(--size-2) var(--size-4);
+  border-radius: var(--radius-5);
+  margin: 0;
+  color: var(--gray-0);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-0);
+  backdrop-filter: blur(15px);
+  transition: color 0.2s, background 0.2s;
+}
+
+.__a:visited {
+  color: var(--gray-0);
+}
+
+.__i {
+  height: 24px;
+  aspect-ratio: 1;
+  fill: currentColor;
+}
+
+.__span {
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  grid-template-columns: 16px 1fr;
+  gap: 0.25rem;
+  margin: 0 2.2rem;
+}
+
+.l__i:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4), :nth-of-type(5))
+  span {
+  opacity: var(--active, 0);
+}
+
+.l__i:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4), :nth-of-type(5))
+  a:is(:hover, :focus) {
+  background: #4b5563b1;
+  color: white;
+}
+
+.l__i:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4), :nth-of-type(5))
+  a:is(:hover, :focus)
+  span {
+  color: white;
+}
+
+.__a:focus-visible {
+  outline-color: transparent;
+}
+
+.u__l:is(:focus-within, :hover) {
+  --active: 1;
+}
