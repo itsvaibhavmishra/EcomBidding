@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getError } from '../../utils';
 import { Store } from '../../Store';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import LoadingDots from '../../Components/LoadingDots/LoadingDots';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,19 +23,30 @@ const reducer = (state, action) => {
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
 
+    case 'CREATE_REQUEST':
+      return { ...state, loadingCreate: true };
+    case 'CREATE_SUCCESS':
+      return {
+        ...state,
+        loadingCreate: false,
+      };
+    case 'CREATE_FAIL':
+      return { ...state, loadingCreate: false };
+
     default:
       return state;
   }
 };
 
 export default function ProductListPage() {
-  const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, products, pages, loadingCreate }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
 
-  // eslint-disable-next-line
-  const { search, pathname } = useLocation();
+  const navigate = useNavigate();
+  const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get('page') || 1;
 
@@ -52,15 +66,49 @@ export default function ProductListPage() {
     fetchData();
   }, [page, userInfo]);
 
+  const createHandler = async () => {
+    if (window.confirm('Are you sure to create?')) {
+      try {
+        dispatch({ type: 'CREATE_REQUEST' });
+        const { data } = await axios.post(
+          '/api/products',
+          {},
+          {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        toast.success('product created successfully');
+        dispatch({ type: 'CREATE_SUCCESS' });
+        navigate(`/admin/product/${data.product._id}`);
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: 'CREATE_FAIL',
+        });
+      }
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Products</h1>
+    <div className="w-full mx-auto p-4">
       {loading ? (
         <Loading />
       ) : error ? (
         <ErrorPage />
       ) : (
         <>
+          <div className="flex justify-between items-center mt-2 mb-8">
+            <h1 className="text-3xl font-bold">Products</h1>
+            <button
+              className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
+              onClick={createHandler}
+            >
+              Create Product
+            </button>
+          </div>
+
+          {loadingCreate && <LoadingDots />}
+
           <div className="overflow-x-auto lg:overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -95,14 +143,17 @@ export default function ProductListPage() {
                   >
                     BRAND
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    ACTIONS
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {products.map((product) => (
-                  <tr
-                    key={product._id}
-                    className="hover:scale-[101%] duration-200"
-                  >
+                  <tr key={product._id} className="bg-gray-100">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {product._id}
                     </td>
@@ -123,6 +174,17 @@ export default function ProductListPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {product.brand}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <button
+                        type="button"
+                        className="bg-cyan-500 text-white font-bold py-1 px-2 rounded hover:bg-cyan-600 shadow"
+                        onClick={() =>
+                          navigate(`/admin/product/${product._id}`)
+                        }
+                      >
+                        Edit
+                      </button>
                     </td>
                   </tr>
                 ))}

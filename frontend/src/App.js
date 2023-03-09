@@ -18,6 +18,7 @@ import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import AdminRoute from './Components/AdminRoute/AdminRoute';
 import ProductListPage from './Pages/ProductListPage/ProductListPage';
+import ProductEditPage from './Pages/ProductEditPage/ProductEditPage';
 
 function App() {
   return (
@@ -151,6 +152,18 @@ function App() {
               <Header />
               <AdminRoute>
                 <ProductListPage />
+              </AdminRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/admin/product/:id"
+          element={
+            <>
+              <Header />
+              <AdminRoute>
+                <ProductEditPage />
               </AdminRoute>
             </>
           }
