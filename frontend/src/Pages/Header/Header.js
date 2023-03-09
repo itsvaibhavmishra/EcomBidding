@@ -131,7 +131,7 @@ export default function Navbar() {
             </Link>
 
             {userInfo && userInfo.isAdmin && (
-              <div to="/" className="hover:text-gray-900 mr-6">
+              <div className="hover:text-gray-900 mr-6">
                 <button
                   id="dropdownUserAvatarButton"
                   data-dropdown-toggle="dropdownAvatar"
@@ -160,7 +160,7 @@ export default function Navbar() {
                     >
                       <li>
                         <Link
-                          to="/dashboard"
+                          to="/admin/dashboard"
                           className="block px-4 py-2 hover:bg-gray-100"
                         >
                           Dashboard
@@ -168,7 +168,7 @@ export default function Navbar() {
                       </li>
                       <li>
                         <Link
-                          to="/productlist"
+                          to="/admin/productlist"
                           className="block px-4 py-2 hover:bg-gray-100"
                         >
                           Products
@@ -176,7 +176,7 @@ export default function Navbar() {
                       </li>
                       <li>
                         <Link
-                          to="/orderlist"
+                          to="/admin/orderlist"
                           className="block px-4 py-2 hover:bg-gray-100"
                         >
                           Orders
@@ -185,7 +185,7 @@ export default function Navbar() {
                     </ul>
                     <div className="py-2">
                       <Link
-                        to="/userlist"
+                        to="/admin/userlist"
                         className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         onClick={signoutHandler}
                       >
