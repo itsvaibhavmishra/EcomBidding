@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import LoadingDots from '../../Components/LoadingDots/LoadingDots';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -15,6 +17,12 @@ const reducer = (state, action) => {
       return { ...state, loading: false };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+    case 'UPDATE_REQUEST':
+      return { ...state, loadingUpdate: true };
+    case 'UPDATE_SUCCESS':
+      return { ...state, loadingUpdate: false };
+    case 'UPDATE_FAIL':
+      return { ...state, loadingUpdate: false };
     default:
       return state;
   }
@@ -22,10 +30,11 @@ const reducer = (state, action) => {
 export default function ProductEditPage() {
   const params = useParams();
   const { id: productId } = params;
+  const navigate = useNavigate();
 
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const [{ loading, error }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
@@ -35,7 +44,7 @@ export default function ProductEditPage() {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
   const [category, setCategory] = useState('');
-  const [countInStock, setCountInStock] = useState('');
+  const [stock, setStock] = useState('');
   const [brand, setBrand] = useState('');
   const [description, setDescription] = useState('');
 
@@ -49,7 +58,7 @@ export default function ProductEditPage() {
         setPrice(data.price);
         setImage(data.image);
         setCategory(data.category);
-        setCountInStock(data.countInStock);
+        setStock(data.stock);
         setBrand(data.brand);
         setDescription(data.description);
         dispatch({ type: 'FETCH_SUCCESS' });
@@ -63,6 +72,38 @@ export default function ProductEditPage() {
     fetchData();
   }, [productId]);
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      await axios.put(
+        `/api/products/${productId}`,
+        {
+          _id: productId,
+          name,
+          url,
+          price,
+          image,
+          category,
+          brand,
+          stock,
+          description,
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: 'UPDATE_SUCCESS',
+      });
+      toast.success('Product updated successfully');
+      navigate('/admin/products');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -70,7 +111,10 @@ export default function ProductEditPage() {
       ) : error ? (
         <ErrorPage />
       ) : (
-        <form>
+        <form onSubmit={submitHandler} className="max-w-4xl m-auto">
+          <h2 className="text-xl font-semibold text-center mt-4">
+            Editing for Product: {productId}
+          </h2>
           <div className="mb-3">
             <label htmlFor="name" className="block">
               Name
@@ -101,7 +145,7 @@ export default function ProductEditPage() {
           </div>
           <div className="mb-3">
             <label htmlFor="price" className="block">
-              Price
+              Price (in rupees)
             </label>
             <input
               type="text"
@@ -156,15 +200,15 @@ export default function ProductEditPage() {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="countInStock" className="block">
-              Count In Stock
+            <label htmlFor="stock" className="block">
+              Stock
             </label>
             <input
               type="text"
-              id="countInStock"
-              name="countInStock"
-              value={countInStock}
-              onChange={(e) => setCountInStock(e.target.value)}
+              id="stock"
+              name="stock"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
               required
               className="border border-gray-400 px-3 py-2 rounded-lg w-full"
             />
@@ -173,7 +217,7 @@ export default function ProductEditPage() {
             <label htmlFor="description" className="block">
               Description
             </label>
-            <input
+            <textarea
               type="text"
               id="description"
               name="description"
@@ -185,11 +229,13 @@ export default function ProductEditPage() {
           </div>
           <div className="mb-3">
             <button
+              disabled={loadingUpdate}
               type="submit"
               className="bg-cyan-500 text-white font-bold py-2 px-4 rounded shadow"
             >
               Update
             </button>
+            {loadingUpdate && <LoadingDots />}
           </div>
         </form>
       )}

@@ -22,9 +22,9 @@ productRouter.post(
       price: 0,
       category: 'sample category',
       brand: 'sample brand',
-      countInStock: 0,
+      stock: 0,
       rating: 0,
-      numReviews: 0,
+      reviews: 0,
       description: 'sample description',
     });
     const product = await newProduct.save();
@@ -32,7 +32,31 @@ productRouter.post(
   })
 );
 
-const PAGE_SIZE = 3;
+productRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (product) {
+      product.name = req.body.name;
+      product.url = req.body.url;
+      product.price = req.body.price;
+      product.image = req.body.image;
+      product.category = req.body.category;
+      product.brand = req.body.brand;
+      product.stock = req.body.stock;
+      product.description = req.body.description;
+      await product.save();
+      res.send({ message: 'Product Updated' });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
+
+const PAGE_SIZE = 8;
 
 productRouter.get(
   '/admin',
