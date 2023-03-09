@@ -14,6 +14,9 @@ import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
 import OrderHistory from './Pages/OrderHistory/OrderHistory';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import SearchPage from './Pages/SearchPage/SearchPage';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import AdminRoute from './Components/AdminRoute/AdminRoute';
 
 function App() {
   return (
@@ -86,7 +89,9 @@ function App() {
           element={
             <>
               <Header />
-              <OrderPage />
+              <ProtectedRoute>
+                <OrderPage />
+              </ProtectedRoute>
             </>
           }
         />
@@ -96,7 +101,9 @@ function App() {
           element={
             <>
               <Header />
-              <OrderHistory />
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
             </>
           }
         />
@@ -106,7 +113,9 @@ function App() {
           element={
             <>
               <Header />
-              <ProfilePage />
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             </>
           }
         />
@@ -117,6 +126,19 @@ function App() {
             <>
               <Header />
               <SearchPage />
+            </>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <>
+              <Header />
+              <AdminRoute>
+                <Dashboard />
+              </AdminRoute>
             </>
           }
         />
