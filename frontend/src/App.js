@@ -19,6 +19,7 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import AdminRoute from './Components/AdminRoute/AdminRoute';
 import ProductListPage from './Pages/ProductListPage/ProductListPage';
 import ProductEditPage from './Pages/ProductEditPage/ProductEditPage';
+import OrderListPage from './Pages/OrderListPage/OrderListPage';
 
 function App() {
   return (
@@ -164,6 +165,18 @@ function App() {
               <Header />
               <AdminRoute>
                 <ProductEditPage />
+              </AdminRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/admin/orders"
+          element={
+            <>
+              <Header />
+              <AdminRoute>
+                <OrderListPage />
               </AdminRoute>
             </>
           }

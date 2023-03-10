@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { getError } from '../../utils';
 import { Store } from '../../Store';
 import Loading from '../../Components/Loading/Loading';
-import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 import LoadingDots from '../../Components/LoadingDots/LoadingDots';
 
 const reducer = (state, action) => {
@@ -148,7 +147,9 @@ export default function ProductListPage() {
       {loading ? (
         <Loading />
       ) : error ? (
-        <ErrorPage />
+        <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
+          No Products Found!
+        </div>
       ) : (
         <>
           <div className="flex justify-between items-center mt-2 mb-8">
