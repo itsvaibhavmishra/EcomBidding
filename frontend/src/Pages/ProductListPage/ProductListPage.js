@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -132,6 +132,17 @@ export default function ProductListPage() {
     }
   };
 
+  // for dropdown
+  const [productId, setProductId] = useState(null);
+
+  function toggleDropdown(newProductId) {
+    if (newProductId === productId) {
+      setProductId(null);
+    } else {
+      setProductId(newProductId);
+    }
+  }
+
   return (
     <div className="w-full mx-auto p-4">
       {loading ? (
@@ -220,22 +231,38 @@ export default function ProductListPage() {
                       {product.brand}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      <button
-                        type="button"
-                        className="bg-gray-200 text-gray-500 font-base py-1 px-2 rounded hover:bg-gray-300 shadow"
-                        onClick={() =>
-                          navigate(`/admin/product/${product._id}`)
-                        }
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="bg-gray-200 ml-2 text-red-500 font-base py-1 px-2 rounded hover:bg-gray-300 shadow"
-                        onClick={() => deleteHandler(product)}
-                      >
-                        Delete
-                      </button>
+                      <div className="text-center">
+                        <button
+                          type="button"
+                          className="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
+                          onClick={() => toggleDropdown(product._id)}
+                        >
+                          <i className="fas fa-ellipsis-v p-[6px] bg-slate-200 rounded-md"></i>
+                        </button>
+                        {productId === product._id && (
+                          <div className="absolute mt-2 w-28 md:right-auto right-5 bg-white border rounded-md shadow-lg z-10">
+                            <button
+                              type="button"
+                              className="block px-4 py-2 text-sm text-gray-700 w-full hover:bg-gray-100"
+                              onClick={() =>
+                                navigate(`/admin/product/${product._id}`)
+                              }
+                            >
+                              Edit
+                            </button>
+
+                            <div className="hover:bg-gray-100 border-t">
+                              <button
+                                type="button"
+                                className="block px-4 py-2 text-sm text-red-500 w-full hover:bg-gray-100"
+                                onClick={() => deleteHandler(product)}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

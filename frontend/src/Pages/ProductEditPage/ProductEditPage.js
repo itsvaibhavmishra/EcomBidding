@@ -138,6 +138,9 @@ export default function ProductEditPage() {
 
   return (
     <>
+      <Helmet>
+        <title>Edit Product-EcomBidding</title>
+      </Helmet>
       {loading ? (
         <Loading />
       ) : error ? (
@@ -147,6 +150,9 @@ export default function ProductEditPage() {
           <h2 className="text-xl font-semibold text-center mt-4">
             Editing for Product: {productId}
           </h2>
+          <div class="flex justify-center">
+            <img src={image} alt={productId} className="w-1/3" />
+          </div>
           <div className="mb-3">
             <label htmlFor="name" className="block">
               Name
