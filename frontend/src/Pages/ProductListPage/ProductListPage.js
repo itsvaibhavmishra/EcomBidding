@@ -32,18 +32,40 @@ const reducer = (state, action) => {
       };
     case 'CREATE_FAIL':
       return { ...state, loadingCreate: false };
+    case 'DELETE_REQUEST':
+      return { ...state, loadingDelete: true, successDelete: false };
+    case 'DELETE_SUCCESS':
+      return {
+        ...state,
+        loadingDelete: false,
+        successDelete: true,
+      };
+    case 'DELETE_FAIL':
+      return { ...state, loadingDelete: false, successDelete: false };
 
+    case 'DELETE_RESET':
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
       return state;
   }
 };
 
 export default function ProductListPage() {
-  const [{ loading, error, products, pages, loadingCreate }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: '',
-    });
+  const [
+    {
+      loading,
+      error,
+      products,
+      pages,
+      loadingCreate,
+      loadingDelete,
+      successDelete,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    error: '',
+  });
 
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -63,8 +85,12 @@ export default function ProductListPage() {
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {}
     };
-    fetchData();
-  }, [page, userInfo]);
+    if (successDelete) {
+      dispatch({ type: 'DELETE_RESET' });
+    } else {
+      fetchData();
+    }
+  }, [page, userInfo, successDelete]);
 
   const createHandler = async () => {
     if (window.confirm('Are you sure to create?')) {
@@ -89,6 +115,23 @@ export default function ProductListPage() {
     }
   };
 
+  const deleteHandler = async (product) => {
+    if (window.confirm('Are you sure to delete?')) {
+      try {
+        await axios.delete(`/api/products/${product._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        toast.success('product deleted successfully');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: 'DELETE_FAIL',
+        });
+      }
+    }
+  };
+
   return (
     <div className="w-full mx-auto p-4">
       {loading ? (
@@ -108,6 +151,7 @@ export default function ProductListPage() {
           </div>
 
           {loadingCreate && <LoadingDots />}
+          {loadingDelete && <LoadingDots />}
 
           <div className="overflow-x-auto lg:overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
@@ -161,7 +205,7 @@ export default function ProductListPage() {
                       <img
                         src={product.image}
                         alt="product_image"
-                        className="rounded-full w-6 h-6 md:flex-shrink-0"
+                        className="rounded-full w-6 h-6 md:flex-shrink-0 mix-blend-multiply"
                       />
                       <span className="ml-2">{product.name}</span>
                     </td>
@@ -178,12 +222,19 @@ export default function ProductListPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       <button
                         type="button"
-                        className="bg-cyan-500 text-white font-bold py-1 px-2 rounded hover:bg-cyan-600 shadow"
+                        className="bg-gray-200 text-gray-500 font-base py-1 px-2 rounded hover:bg-gray-300 shadow"
                         onClick={() =>
                           navigate(`/admin/product/${product._id}`)
                         }
                       >
                         Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="bg-gray-200 ml-2 text-red-500 font-base py-1 px-2 rounded hover:bg-gray-300 shadow"
+                        onClick={() => deleteHandler(product)}
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
