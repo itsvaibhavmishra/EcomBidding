@@ -126,9 +126,14 @@ export default function Navbar() {
                 </span>
               </span>
             </Link>
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Seller
-            </Link>
+
+            {userInfo && userInfo.isSeller && (
+              <div>
+                <Link to="/" className="mr-5 hover:text-gray-900">
+                  Seller
+                </Link>
+              </div>
+            )}
 
             {userInfo && userInfo.isAdmin && (
               <div className="hover:text-gray-900 mr-6">
@@ -187,7 +192,6 @@ export default function Navbar() {
                       <Link
                         to="/admin/users"
                         className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                        onClick={signoutHandler}
                       >
                         Manage Users
                       </Link>
