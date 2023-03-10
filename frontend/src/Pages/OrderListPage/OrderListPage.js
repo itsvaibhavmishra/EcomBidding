@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useReducer } from 'react';
-
+import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../Components/Loading/Loading';
 import axios from 'axios';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
+import LoadingDots from '../../Components/LoadingDots/LoadingDots';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -19,6 +20,18 @@ const reducer = (state, action) => {
       };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+    case 'DELETE_REQUEST':
+      return { ...state, loadingDelete: true, successDelete: false };
+    case 'DELETE_SUCCESS':
+      return {
+        ...state,
+        loadingDelete: false,
+        successDelete: true,
+      };
+    case 'DELETE_FAIL':
+      return { ...state, loadingDelete: false };
+    case 'DELETE_RESET':
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
       return state;
   }
@@ -28,10 +41,11 @@ export default function OrderListPage() {
   const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, orders, loadingDelete, successDelete }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,8 +62,30 @@ export default function OrderListPage() {
         });
       }
     };
-    fetchData();
-  }, [userInfo]);
+    if (successDelete) {
+      dispatch({ type: 'DELETE_RESET' });
+    } else {
+      fetchData();
+    }
+  }, [userInfo, successDelete]);
+
+  const deleteHandler = async (order) => {
+    if (window.confirm('Are you sure to delete?')) {
+      try {
+        dispatch({ type: 'DELETE_REQUEST' });
+        await axios.delete(`/api/orders/${order._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        toast.success('order deleted successfully');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: 'DELETE_FAIL',
+        });
+      }
+    }
+  };
 
   return (
     <div>
@@ -65,6 +101,7 @@ export default function OrderListPage() {
       ) : (
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8">Order History</h1>
+          {loadingDelete && <LoadingDots />}
 
           {/* Primary card */}
           <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-4">
@@ -85,7 +122,7 @@ export default function OrderListPage() {
               className="border border-gray-300 rounded-md shadow-sm overflow-hidden mx-4 mb-4 hover:scale-[101%] backface-hidden duration-300"
               key={order._id}
             >
-              <div className="grid grid-cols-7 bg-gray-100 text-sm font-medium text-gray-700">
+              <div className="grid grid-cols-7 bg-gray-100 text-sm font-medium text-gray-700 overflow-x-auto">
                 <div className="py-4 px-4 flex items-center">
                   {order.orderItems.map((item) => (
                     <img
@@ -123,7 +160,7 @@ export default function OrderListPage() {
                 >
                   {order.isDelivered ? 'Yes' : 'No'}
                 </div>
-                <div className="py-3 px-auto lg:px-4 text-center">
+                <div className="py-3 px-auto lg:px-4 text-center flex">
                   <button
                     type="button"
                     className="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
@@ -133,6 +170,16 @@ export default function OrderListPage() {
                   >
                     <p className="p-[6px] bg-slate-200 rounded-md hover:bg-slate-300 duration-200">
                       Details
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="text-red-600 hover:text-red-900 ml-2 focus:outline-none flex items-center "
+                    onClick={() => deleteHandler(order)}
+                  >
+                    <p className="p-[6px] bg-slate-200 rounded-md hover:bg-red-300 duration-200">
+                      Delete
                     </p>
                   </button>
                 </div>

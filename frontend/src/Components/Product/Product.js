@@ -33,7 +33,7 @@ function Product(props) {
     <div className="items border border-solid border-lightgray m-4">
       <Link to={`/products/${product.url}`}>
         <img
-          className="w-full max-h-72"
+          className="w-full max-h-72 object-contain"
           src={product.image}
           alt={product.name}
         />
