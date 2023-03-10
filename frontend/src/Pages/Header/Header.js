@@ -127,9 +127,13 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <Link to="/" className="mr-5 hover:text-gray-900">
-              Seller
-            </Link>
+            {userInfo && userInfo.isSeller && (
+              <div>
+                <Link to="/" className="mr-5 hover:text-gray-900">
+                  Seller
+                </Link>
+              </div>
+            )}
 
             {userInfo && userInfo.isAdmin && (
               <div className="hover:text-gray-900 mr-6">
