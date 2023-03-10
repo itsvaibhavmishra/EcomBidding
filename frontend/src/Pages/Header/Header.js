@@ -168,7 +168,7 @@ export default function Navbar() {
                       </li>
                       <li>
                         <Link
-                          to="/admin/productlist"
+                          to="/admin/products"
                           className="block px-4 py-2 hover:bg-gray-100"
                         >
                           Products
@@ -176,7 +176,7 @@ export default function Navbar() {
                       </li>
                       <li>
                         <Link
-                          to="/admin/orderlist"
+                          to="/admin/orders"
                           className="block px-4 py-2 hover:bg-gray-100"
                         >
                           Orders
@@ -185,7 +185,7 @@ export default function Navbar() {
                     </ul>
                     <div className="py-2">
                       <Link
-                        to="/admin/userlist"
+                        to="/admin/users"
                         className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         onClick={signoutHandler}
                       >

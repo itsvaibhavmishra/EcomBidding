@@ -42,7 +42,7 @@ function Product(props) {
         <Link to={`/products/${product.url}`}>
           <p>{product.name}</p>
           <Rating rating={product.rating} reviews={product.reviews} />
-          <p className="text-sm">
+          <p className="text-sm text-left">
             <small>₹</small>
             {product.price.toLocaleString('en-IN')}
           </p>
