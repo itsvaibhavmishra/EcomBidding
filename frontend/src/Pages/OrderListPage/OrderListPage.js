@@ -68,14 +68,14 @@ export default function OrderListPage() {
 
           {/* Primary card */}
           <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden mb-4">
-            <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-300 font-medium text-sm">
+            <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-300 font-medium text-sm overflow-x-auto">
               <div className="py-3 px-4">ID</div>
               <div className="py-3 px-4">USER</div>
               <div className="py-3 px-4">DATE</div>
               <div className="py-3 px-4">TOTAL</div>
               <div className="py-3 px-4">PAID</div>
               <div className="py-3 px-4">DELIVERED</div>
-              <div className="py-3 px-4">ACTIONS</div>
+              <div className="py-3 px-4 ml-4 lg:ml-0">ACTIONS</div>
             </div>
           </div>
 
