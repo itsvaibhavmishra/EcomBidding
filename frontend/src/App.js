@@ -20,6 +20,7 @@ import AdminRoute from './Components/AdminRoute/AdminRoute';
 import ProductListPage from './Pages/ProductListPage/ProductListPage';
 import ProductEditPage from './Pages/ProductEditPage/ProductEditPage';
 import OrderListPage from './Pages/OrderListPage/OrderListPage';
+import UserListPage from './Pages/UserListPage/UserListPage';
 
 function App() {
   return (
@@ -177,6 +178,18 @@ function App() {
               <Header />
               <AdminRoute>
                 <OrderListPage />
+              </AdminRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/admin/users"
+          element={
+            <>
+              <Header />
+              <AdminRoute>
+                <UserListPage />
               </AdminRoute>
             </>
           }
