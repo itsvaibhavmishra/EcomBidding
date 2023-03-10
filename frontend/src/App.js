@@ -21,6 +21,7 @@ import ProductListPage from './Pages/ProductListPage/ProductListPage';
 import ProductEditPage from './Pages/ProductEditPage/ProductEditPage';
 import OrderListPage from './Pages/OrderListPage/OrderListPage';
 import UserListPage from './Pages/UserListPage/UserListPage';
+import UserEditPage from './Pages/UserEditPage/UserEditPage';
 
 function App() {
   return (
@@ -190,6 +191,18 @@ function App() {
               <Header />
               <AdminRoute>
                 <UserListPage />
+              </AdminRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/admin/user/:id"
+          element={
+            <>
+              <Header />
+              <AdminRoute>
+                <UserEditPage />
               </AdminRoute>
             </>
           }

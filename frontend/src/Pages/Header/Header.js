@@ -126,6 +126,7 @@ export default function Navbar() {
                 </span>
               </span>
             </Link>
+
             <Link to="/" className="mr-5 hover:text-gray-900">
               Seller
             </Link>

@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import Loading from '../../Components/Loading/Loading';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +29,8 @@ export default function UserListPage() {
     loading: true,
     error: '',
   });
+
+  const navigate = useNavigate();
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -100,15 +103,16 @@ export default function UserListPage() {
                 </div>
                 <div
                   className={`py-4 px-4 ${
-                    user.isAdmin ? 'text-green-600' : 'text-red-600'
+                    user.isSeller ? 'text-green-600' : 'text-red-600'
                   }`}
                 >
-                  {user.isAdmin ? 'YES' : 'NO'}
+                  {user.isSeller ? 'YES' : 'NO'}
                 </div>
                 <div className="py-3 px-auto lg:px-4 text-center flex">
                   <button
                     type="button"
                     className="text-gray-600 hover:text-gray-900 focus:outline-none flex items-center "
+                    onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
                     <p className="p-[6px] bg-slate-200 rounded-md hover:bg-slate-300 duration-200">
                       Edit
