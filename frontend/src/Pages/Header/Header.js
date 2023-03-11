@@ -155,7 +155,7 @@ export default function Navbar() {
                   >
                     <div className="px-4 py-3 text-sm text-gray-900 mt-1">
                       <span className="bg-blue-500 text-white px-2">
-                        {userInfo.name}
+                        {userInfo.seller?.name}
                       </span>
                       <div className="font-medium truncate">
                         {userInfo.email}

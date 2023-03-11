@@ -41,6 +41,15 @@ userRouter.put(
       user.email = req.body.email || user.email;
       user.isAdmin = Boolean(req.body.isAdmin);
       user.isSeller = Boolean(req.body.isSeller);
+
+      // Check if the user is a seller before updating seller information
+      if (user.isSeller && user.seller) {
+        user.seller.name = req.body.sellerName || user.seller.name;
+        user.seller.logo = req.body.sellerLogo || user.seller.logo;
+        user.seller.description =
+          req.body.sellerDescription || user.seller.description;
+      }
+
       const updatedUser = await user.save();
       res.send({ message: 'User Updated Successfully', user: updatedUser });
     } else {
@@ -80,6 +89,7 @@ userRouter.post(
           email: user.email,
           isAdmin: user.isAdmin,
           isSeller: user.isSeller,
+          seller: user.seller,
           token: generateToken(user),
         });
         return;
@@ -97,6 +107,11 @@ userRouter.post(
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
+      seller: {
+        name: req.body.sellerName,
+        logo: req.body.sellerLogo,
+        description: req.body.sellerDescription,
+      },
     });
     // saving new user in mongodb
     const user = await newUser.save();
@@ -107,6 +122,7 @@ userRouter.post(
       email: user.email,
       isAdmin: user.isAdmin,
       isSeller: user.isSeller,
+      seller: user.seller,
       token: generateToken(user),
     });
   })
@@ -122,6 +138,12 @@ userRouter.put(
       user.email = req.body.email || user.email;
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
+      }
+      if (user.isSeller) {
+        user.seller.name = req.body.sellerName || user.seller.name;
+        user.seller.logo = req.body.sellerLogo || user.seller.logo;
+        user.seller.description =
+          req.body.sellerDescription || user.seller.description;
       }
 
       const updatedUser = await user.save();
