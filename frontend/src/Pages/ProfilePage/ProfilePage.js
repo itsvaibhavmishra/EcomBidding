@@ -175,7 +175,7 @@ function ProfilePage() {
                       id="confirmPassword"
                       name="password"
                       type="password"
-                      className="focus:border-rose-600 peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
+                      className="focus:border-rose-600 peer mb-4 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
                       placeholder="Password"
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
@@ -189,8 +189,10 @@ function ProfilePage() {
 
                   {userInfo.isSeller && (
                     <>
-                      <h2 className="text-2xl font-semibold">Seller Info</h2>
-                      <div className="relative">
+                      <h2 className="text-2xl font-semibold">
+                        Seller Profile - Edit seller profile
+                      </h2>
+                      <div className="relative pt-4">
                         <input
                           autoComplete="off"
                           id="sellerName"
@@ -204,7 +206,7 @@ function ProfilePage() {
                         />
                         <label
                           htmlFor="sellerName"
-                          className="peer-placeholder-shown:text-gray-440 absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                          className="peer-placeholder-shown:text-gray-440 mt-4 absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
                         >
                           Seller Name
                         </label>
@@ -252,10 +254,13 @@ function ProfilePage() {
                   <div className="relative">
                     <button
                       type="submit"
-                      className="rounded-md bg-cyan-500 px-2 py-1 text-white duration-200 hover:bg-cyan-600"
+                      className="rounded-md mt-4 w-full bg-cyan-500 px-2 py-1 text-white duration-200 hover:bg-cyan-600"
                     >
                       Update
                     </button>
+                    <div className="px-2 w-full text-sm text-center border rounded-md mt-2 bg-gray-100 text-gray-700">
+                      User will be logged out in order to apply changes.
+                    </div>
                   </div>
                 </form>
               </div>
