@@ -5,6 +5,7 @@ import { getError } from '../../utils';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import './ProfilePage.css';
+import { useParams } from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,6 +28,9 @@ function ProfilePage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const params = useParams();
+  const { id: userId } = params;
+
   // eslint-disable-next-line no-unused-vars
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
@@ -48,7 +52,7 @@ function ProfilePage() {
     }
     try {
       const { data } = await axios.put(
-        `/api/users/profile`,
+        `/api/users/profile/${userId}`,
         {
           name,
           email,
