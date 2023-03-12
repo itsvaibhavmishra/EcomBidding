@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
     isSeller: { type: Boolean, required: true, default: false },
+    seller: {
+      name: { type: String, required: false },
+      logo: { type: String, required: false },
+      description: { type: String, required: false },
+      rating: { type: Number, default: 0, required: true },
+      reviews: { type: Number, default: 0, required: true },
+    },
   },
   // Accepts options
   {

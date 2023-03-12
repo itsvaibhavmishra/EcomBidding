@@ -68,6 +68,16 @@ export default function Navbar() {
     window.location.href = '/signin';
   }
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleOutsideClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <ToastContainer position="bottom-center" limit={1} />
@@ -112,6 +122,14 @@ export default function Navbar() {
           </div>
 
           <nav className="flex lg:w-2/5 flex-wrap lg:justify-end items-center text-base md:ml-auto">
+            <Link to="/auction" className="relative inline-flex items-center">
+              <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
+                <span className="ml-1.5 text-base text-gray-600 hover:text-gray-900">
+                  Auction
+                </span>
+              </span>
+            </Link>
+
             <Link to="/cart" className="relative inline-flex items-center mr-5">
               <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
                 {cart.cartItems.length > 0 && (
@@ -128,10 +146,52 @@ export default function Navbar() {
             </Link>
 
             {userInfo && userInfo.isSeller && (
-              <div>
-                <Link to="/" className="mr-5 hover:text-gray-900">
-                  Seller
-                </Link>
+              <div className="mr-4">
+                <button
+                  id="dropdownUserAvatarButton"
+                  data-dropdown-toggle="dropdownAvatar"
+                  className="flex items-center mr-2 hover:text-gray-900 focus:outline-none cursor-pointer"
+                  onClick={handleMenuClick}
+                >
+                  Seller &nbsp;
+                  <i className="fas fa-angle-down"></i>
+                </button>
+                {isMenuOpen && (
+                  <div
+                    onClick={handleOutsideClick}
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-auto mt-2 w-auto left-auto"
+                  >
+                    <div className="px-4 py-3 text-sm text-gray-900 mt-1">
+                      <span className="bg-blue-500 text-white px-2">
+                        {userInfo.seller?.name}
+                      </span>
+                      <div className="font-medium truncate">
+                        {userInfo.email}
+                      </div>
+                    </div>
+                    <ul
+                      className="py-2 text-sm text-gray-700"
+                      aria-labelledby="dropdownUserAvatarButton"
+                    >
+                      <li>
+                        <Link
+                          to="/seller/products"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Products
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/seller/orders"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Orders
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 
@@ -149,7 +209,7 @@ export default function Navbar() {
                 {isOpenAdmin && (
                   <div
                     id="dropdownAvatar"
-                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 sm:left-auto sm:right-0"
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-0 mt-2 w-48 sm:left-auto"
                   >
                     <div className="px-4 py-3 text-sm text-gray-900 mt-1">
                       <span className="bg-red-500 text-white px-2">

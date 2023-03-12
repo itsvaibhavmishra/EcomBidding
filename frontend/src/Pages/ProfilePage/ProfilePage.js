@@ -27,6 +27,11 @@ function ProfilePage() {
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [sellerName, setSellerName] = useState(userInfo.seller?.name || '');
+  const [sellerLogo, setSellerLogo] = useState(userInfo.seller?.logo || '');
+  const [sellerDescription, setSellerDescription] = useState(
+    userInfo.seller?.description || ''
+  );
 
   const params = useParams();
   const { id: userId } = params;
@@ -57,6 +62,9 @@ function ProfilePage() {
           name,
           email,
           password,
+          sellerName,
+          sellerLogo,
+          sellerDescription,
         },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -74,7 +82,17 @@ function ProfilePage() {
       });
       toast.error(getError(err));
     }
+    signoutHandler();
   };
+
+  function signoutHandler() {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
+  }
+
   return (
     <div>
       <Helmet>
@@ -157,7 +175,7 @@ function ProfilePage() {
                       id="confirmPassword"
                       name="password"
                       type="password"
-                      className="focus:border-rose-600 peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
+                      className="focus:border-rose-600 peer mb-4 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
                       placeholder="Password"
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
@@ -168,13 +186,81 @@ function ProfilePage() {
                       Confirm Password
                     </label>
                   </div>
+
+                  {userInfo.isSeller && (
+                    <>
+                      <h2 className="text-2xl font-semibold">
+                        Seller Profile - Edit seller profile
+                      </h2>
+                      <div className="relative pt-4">
+                        <input
+                          autoComplete="off"
+                          id="sellerName"
+                          name="sellerName"
+                          type="text"
+                          className="focus:border-rose-600 peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
+                          placeholder="Seller Name"
+                          value={sellerName}
+                          onChange={(e) => setSellerName(e.target.value)}
+                          required
+                        />
+                        <label
+                          htmlFor="sellerName"
+                          className="peer-placeholder-shown:text-gray-440 mt-4 absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        >
+                          Seller Name
+                        </label>
+                      </div>
+                      <div className="relative">
+                        <input
+                          autoComplete="off"
+                          id="sellerLogo"
+                          name="sellerLogo"
+                          type="text"
+                          className="focus:border-rose-600 peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
+                          placeholder="Seller Logo"
+                          value={sellerLogo}
+                          onChange={(e) => setSellerLogo(e.target.value)}
+                          required
+                        />
+                        <label
+                          htmlFor="sellerLogo"
+                          className="peer-placeholder-shown:text-gray-440 absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        >
+                          Seller Logo
+                        </label>
+                      </div>
+                      <div className="relative">
+                        <input
+                          autoComplete="off"
+                          id="sellerDescription"
+                          name="sellerDescription"
+                          type="text"
+                          className="focus:border-rose-600 peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none text-base"
+                          placeholder="Seller Description"
+                          value={sellerDescription}
+                          onChange={(e) => setSellerDescription(e.target.value)}
+                          required
+                        />
+                        <label
+                          htmlFor="sellerDescription"
+                          className="peer-placeholder-shown:text-gray-440 absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        >
+                          Seller Description
+                        </label>
+                      </div>
+                    </>
+                  )}
                   <div className="relative">
                     <button
                       type="submit"
-                      className="rounded-md bg-cyan-500 px-2 py-1 text-white duration-200 hover:bg-cyan-600"
+                      className="rounded-md mt-4 w-full bg-cyan-500 px-2 py-1 text-white duration-200 hover:bg-cyan-600"
                     >
                       Update
                     </button>
+                    <div className="px-2 w-full text-sm text-center border rounded-md mt-2 bg-gray-100 text-gray-700">
+                      User will be logged out in order to apply changes.
+                    </div>
                   </div>
                 </form>
               </div>
