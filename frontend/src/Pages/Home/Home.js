@@ -62,10 +62,7 @@ function Home() {
             <Categories />
             <div className="products flex flex-wrap justify-center">
               {products.map((product) => (
-                <div
-                  key={product.url}
-                  className="hover:transform hover:scale-105 duration-500"
-                >
+                <div key={product.url}>
                   <Product product={product} />
                 </div>
               ))}

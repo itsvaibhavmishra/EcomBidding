@@ -23,6 +23,7 @@ import OrderListPage from './Pages/OrderListPage/OrderListPage';
 import UserListPage from './Pages/UserListPage/UserListPage';
 import UserEditPage from './Pages/UserEditPage/UserEditPage';
 import SellerRoute from './Components/SellerRoute/SellerRoute';
+import TempAuction from './Pages/TempAuction/TempAuction';
 
 function App() {
   return (
@@ -159,6 +160,7 @@ function App() {
               </AdminRoute>
             </>
           }
+          exact
         />
 
         <Route
@@ -183,6 +185,7 @@ function App() {
               </AdminRoute>
             </>
           }
+          exact
         />
 
         <Route
@@ -230,6 +233,16 @@ function App() {
               <SellerRoute>
                 <OrderListPage />
               </SellerRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/auction"
+          element={
+            <>
+              <Header />
+              <TempAuction />
             </>
           }
         />
