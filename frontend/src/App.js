@@ -24,6 +24,7 @@ import UserListPage from './Pages/UserListPage/UserListPage';
 import UserEditPage from './Pages/UserEditPage/UserEditPage';
 import SellerRoute from './Components/SellerRoute/SellerRoute';
 import TempAuction from './Pages/TempAuction/TempAuction';
+import AuctionDetails from './Pages/AuctionDetails/AuctionDetails';
 
 function App() {
   return (
@@ -243,6 +244,17 @@ function App() {
             <>
               <Header />
               <TempAuction />
+            </>
+          }
+        />
+
+        <Route
+          path="/auctiondetails"
+          element={
+            <>
+              <Header />
+              <AuctionDetails />
+              <Footer />
             </>
           }
         />
