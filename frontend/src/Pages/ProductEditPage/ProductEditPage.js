@@ -150,7 +150,7 @@ export default function ProductEditPage() {
           <h2 className="text-xl font-semibold text-center mt-4">
             Editing for Product: {productId}
           </h2>
-          <div class="flex justify-center">
+          <div className="flex justify-center">
             <img src={image} alt={productId} className="w-1/3" />
           </div>
           <div className="mb-3">

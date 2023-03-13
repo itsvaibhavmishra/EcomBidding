@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getError } from '../../utils';
+import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
 import Loading from '../../Components/Loading/Loading';
 import LoadingDots from '../../Components/LoadingDots/LoadingDots';
@@ -152,8 +153,11 @@ export default function ProductListPage() {
         </div>
       ) : (
         <>
+          <Helmet>
+            <title>Manage Products-EcomBidding</title>
+          </Helmet>
           <div className="flex justify-between items-center mt-2 mb-8">
-            <h1 className="text-3xl font-bold">Products</h1>
+            <h1 className="text-3xl font-bold">Manage Products</h1>
             <button
               className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
               onClick={createHandler}

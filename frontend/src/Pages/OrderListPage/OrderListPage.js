@@ -90,7 +90,7 @@ export default function OrderListPage() {
   return (
     <div>
       <Helmet>
-        <title>Orders List-EcomBidding</title>
+        <title>Manage Orders-EcomBidding</title>
       </Helmet>
       {loading ? (
         <Loading />
