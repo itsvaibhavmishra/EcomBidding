@@ -3,6 +3,7 @@ import Chart from 'react-google-charts';
 import axios from 'axios';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
+import { Helmet } from 'react-helmet-async';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 
@@ -56,6 +57,9 @@ export default function Dashboard() {
         <ErrorPage />
       ) : (
         <>
+          <Helmet>
+            <title>Admin Dashboard-EcomBidding</title>
+          </Helmet>
           <h1 className="bg-cyan-500 text-white py-4 px-8 font-bold text-2xl tracking-wide">
             Dashboard
           </h1>

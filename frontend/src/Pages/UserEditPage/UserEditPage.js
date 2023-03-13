@@ -164,9 +164,9 @@ export default function UserEditPage() {
                             className="sr-only"
                             onChange={(e) => setIsAdmin(e.target.checked)}
                           />
-                          <div className="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                          <div className="block bg-gray-300 cursor-pointer w-14 h-8 rounded-full"></div>
                           <div
-                            className={`dot absolute left-1 top-1.5 w-5 h-5 rounded-full transition transform ${
+                            className={`dot cursor-pointer absolute left-1 top-1.5 w-5 h-5 rounded-full transition transform ${
                               isAdmin ? 'translate-x-6 bg-cyan-500' : 'bg-white'
                             }`}
                           ></div>
@@ -184,9 +184,9 @@ export default function UserEditPage() {
                             className="sr-only"
                             onChange={(e) => setIsSeller(e.target.checked)}
                           />
-                          <div className="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                          <div className="block bg-gray-300 w-14 h-8 rounded-full cursor-pointer"></div>
                           <div
-                            className={`dot absolute left-1 top-1.5 w-5 h-5 rounded-full transition transform ${
+                            className={`dot cursor-pointer absolute left-1 top-1.5 w-5 h-5 rounded-full transition transform ${
                               isSeller
                                 ? 'translate-x-6 bg-cyan-500'
                                 : 'bg-white'

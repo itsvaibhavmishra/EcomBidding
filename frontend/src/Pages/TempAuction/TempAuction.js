@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 function AuctionItem({ name, image, endTime, price }) {
   const [timeLeft, setTimeLeft] = useState('');
@@ -16,6 +17,9 @@ function AuctionItem({ name, image, endTime, price }) {
 
   return (
     <div className="bg-white shadow-md rounded-md overflow-hidden">
+      <Helmet>
+        <title>Auction House-EcomBidding</title>
+      </Helmet>
       <img
         src={image}
         alt="ItemImage"
