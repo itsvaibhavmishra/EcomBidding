@@ -23,7 +23,7 @@ import OrderListPage from './Pages/OrderListPage/OrderListPage';
 import UserListPage from './Pages/UserListPage/UserListPage';
 import UserEditPage from './Pages/UserEditPage/UserEditPage';
 import SellerRoute from './Components/SellerRoute/SellerRoute';
-import TempAuction from './Pages/TempAuction/TempAuction';
+import Auction from './Pages/Auction/Auction';
 import AuctionDetails from './Pages/AuctionDetails/AuctionDetails';
 
 function App() {
@@ -243,7 +243,7 @@ function App() {
           element={
             <>
               <Header />
-              <TempAuction />
+              <Auction />
             </>
           }
         />
