@@ -1,8 +1,8 @@
-// Product database from DB
+// User database from DB
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
-  // Accepts objest as parameter that defines the fields of products
+  // Accepts objest as parameter that defines the fields of users
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
