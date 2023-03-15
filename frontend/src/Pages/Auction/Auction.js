@@ -1,7 +1,9 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import AuctionItem from '../../Components/AuctionItem/AuctionItem';
 import Loading from '../../Components/Loading/Loading';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
+import { Store } from '../../Store';
+import { Link } from 'react-router-dom';
 
 const initialState = {
   products: [],
@@ -28,6 +30,10 @@ function AuctionPage() {
     initialState
   );
 
+  const {
+    state: { userInfo },
+  } = useContext(Store);
+
   useEffect(() => {
     const fetchProducts = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -45,13 +51,26 @@ function AuctionPage() {
   return (
     <div className="bg-gray-100">
       <header className="bg-cyan-500 py-4 shadow-sm">
-        <div className="container mx-auto">
-          <h1 className="text-3xl font-bold text-white text-center">
-            <i className="fas fa-hourglass-half text-2xl mr-2"></i>
-            Live Auction
-          </h1>
+        <div className="container mx-auto flex items-center">
+          <div className="flex-grow flex justify-center ml-36">
+            <h1 className="text-3xl font-bold text-white mx-auto">
+              <i className="fas fa-hourglass-half text-2xl mr-2"></i>
+              Live Auction
+            </h1>
+          </div>
+          <div className="flex justify-end">
+            {userInfo && userInfo.isSeller && (
+              <Link
+                to="/create-auction"
+                className="bg-white hover:bg-gray-200 hover:text-cyan-600 duration-200 sm:mr-2 text-cyan-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Create Auction
+              </Link>
+            )}
+          </div>
         </div>
       </header>
+
       <main className="container mx-auto py-8">
         {loading ? (
           <Loading />
@@ -61,11 +80,12 @@ function AuctionPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {products.map((product) => (
               <AuctionItem
-                key={product.id}
-                name={product.name}
-                image={product.image}
-                endTime={product.endTime}
-                bidPrice={product.bidPrice}
+                key={product._id}
+                id={product._id}
+                title={product.title}
+                imageUrl={product.imageUrl}
+                endDate={product.endDate}
+                currentBid={product.currentBid}
               />
             ))}
           </div>

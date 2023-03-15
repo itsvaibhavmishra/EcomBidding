@@ -25,6 +25,7 @@ import UserEditPage from './Pages/UserEditPage/UserEditPage';
 import SellerRoute from './Components/SellerRoute/SellerRoute';
 import Auction from './Pages/Auction/Auction';
 import AuctionDetails from './Pages/AuctionDetails/AuctionDetails';
+import CreateAuction from './Pages/CreateAuction/CreateAuction';
 
 function App() {
   return (
@@ -244,6 +245,16 @@ function App() {
             <>
               <Header />
               <Auction />
+            </>
+          }
+        />
+
+        <Route
+          path="/create-auction"
+          element={
+            <>
+              <Header />
+              <CreateAuction />
             </>
           }
         />
