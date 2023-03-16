@@ -23,7 +23,9 @@ import OrderListPage from './Pages/OrderListPage/OrderListPage';
 import UserListPage from './Pages/UserListPage/UserListPage';
 import UserEditPage from './Pages/UserEditPage/UserEditPage';
 import SellerRoute from './Components/SellerRoute/SellerRoute';
-import TempAuction from './Pages/TempAuction/TempAuction';
+import Auction from './Pages/Auction/Auction';
+import CreateAuction from './Pages/CreateAuction/CreateAuction';
+import AuctionDetail from './Pages/AuctionDetails/AuctionDetail';
 
 function App() {
   return (
@@ -242,7 +244,28 @@ function App() {
           element={
             <>
               <Header />
-              <TempAuction />
+              <Auction />
+            </>
+          }
+        />
+
+        <Route
+          path="/create-auction"
+          element={
+            <>
+              <Header />
+              <CreateAuction />
+            </>
+          }
+        />
+
+        <Route
+          path="/auctions/:id"
+          element={
+            <>
+              <Header />
+              <AuctionDetail />
+              <Footer />
             </>
           }
         />

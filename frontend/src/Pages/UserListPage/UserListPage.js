@@ -93,7 +93,7 @@ export default function UserListPage() {
   return (
     <div>
       <Helmet>
-        <title>Orders List-EcomBidding</title>
+        <title>Manage Users-EcomBidding</title>
       </Helmet>
       {loading ? (
         <Loading />

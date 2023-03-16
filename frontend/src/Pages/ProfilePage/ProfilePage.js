@@ -4,8 +4,8 @@ import { Store } from '../../Store';
 import { getError } from '../../utils';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import './ProfilePage.css';
 import { useParams } from 'react-router-dom';
+import './ProfilePage.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
