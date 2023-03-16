@@ -26,6 +26,7 @@ import SellerRoute from './Components/SellerRoute/SellerRoute';
 import Auction from './Pages/Auction/Auction';
 import AuctionDetails from './Pages/AuctionDetails/AuctionDetails';
 import CreateAuction from './Pages/CreateAuction/CreateAuction';
+import AuctionDetail from './Pages/AuctionDetails/AuctionDetail';
 
 function App() {
   return (
@@ -259,6 +260,16 @@ function App() {
           }
         />
 
+        <Route
+          path="/auctions/:id"
+          element={
+            <>
+              <Header />
+              <AuctionDetail />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/auctiondetails"
           element={

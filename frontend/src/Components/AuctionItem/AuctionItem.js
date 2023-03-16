@@ -10,13 +10,14 @@ function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
     const intervalId = setInterval(() => {
       const duration = (new Date(endDate) - new Date()) / 1000;
       if (duration <= 0) {
-        setTimeLeft(`0h 0m 0s`);
+        setTimeLeft(`0d 0h 0m 0s`);
         setAuctionEnded(true);
       } else {
-        const hours = Math.floor(duration / 3600);
+        const days = Math.floor(duration / (24 * 3600));
+        const hours = Math.floor((duration % (24 * 3600)) / 3600);
         const minutes = Math.floor((duration % 3600) / 60);
         const seconds = Math.floor(duration % 60);
-        setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+        setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
       }
     }, 1000);
     return () => clearInterval(intervalId);
@@ -46,7 +47,7 @@ function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
             Auction Ended
           </button>
         ) : (
-          <Link to="/auctiondetails">
+          <Link to={`/auctions/${id}`}>
             <button className="w-full py-2 px-4 bg-gray-300 text-gray-600 duration-200 rounded-md mt-4 hover:bg-gray-400">
               Bid Now
             </button>

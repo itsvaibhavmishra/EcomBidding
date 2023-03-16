@@ -1,5 +1,6 @@
 import express from 'express';
 import Auction from '../models/auctionModel.js';
+import { io } from '../server.js';
 
 const auctionRouter = express.Router();
 
@@ -36,6 +37,20 @@ auctionRouter.get('/', async (req, res) => {
   }
 });
 
+// Get a specific auction
+auctionRouter.get('/:id', async (req, res) => {
+  try {
+    const auction = await Auction.findById(req.params.id);
+    if (!auction) {
+      return res.status(404).json({ message: 'Auction not found' });
+    }
+    res.json(auction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 // Place a bid on an auction
 auctionRouter.post('/:id/bids', async (req, res) => {
   try {
@@ -53,7 +68,7 @@ auctionRouter.post('/:id/bids', async (req, res) => {
         .json({ message: 'Bid amount must be greater than current bid' });
     }
 
-    if (auction.timeLeft === 0) {
+    if (auction.endDate === 0) {
       return res.status(400).json({ message: 'Auction has ended' });
     }
 
@@ -61,6 +76,7 @@ auctionRouter.post('/:id/bids', async (req, res) => {
     auction.currentBid = bidAmount;
 
     const updatedAuction = await auction.save();
+    io.emit('bid', updatedAuction); // emit the 'bid' event with the updated auction
     res.json(updatedAuction);
   } catch (error) {
     console.error(error);

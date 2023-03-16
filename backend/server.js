@@ -9,6 +9,7 @@ import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
 import { Server } from 'socket.io';
 import http from 'http';
+import cors from 'cors';
 
 import Auction from './models/auctionModel.js';
 import auctionRouter from './routes/auctionRoutes.js';
@@ -19,6 +20,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // implementing api for paypal
 app.get('/api/keys/paypal', (req, res) => {
@@ -51,7 +53,11 @@ const port = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+  },
+});
 
 io.on('connection', (socket) => {
   console.log(`[Socket] New connection ${socket.id}`);
@@ -91,18 +97,20 @@ io.on('connection', (socket) => {
         return;
       }
 
-      if (bid <= auction.currentBid) {
-        console.log(`[SocketIO] Bid must be greater than current bid: ${bid}`);
+      if (bidAmount <= auction.currentBid) {
+        console.log(
+          `[SocketIO] Bid must be greater than current bid: ${bidAmount}`
+        );
         return;
       }
 
-      if (auction.timeLeft === 0) {
+      if (auction.endDate === 0) {
         console.log(`[SocketIO] Auction has ended: ${auctionId}`);
         return;
       }
 
-      auction.bids.push({ bidder: 'Anonymous', bidAmount: bid });
-      auction.currentBid = bid;
+      auction.bids.push({ bidder: 'Anonymous', bidAmount: bidAmount });
+      auction.currentBid = bidAmount;
 
       const updatedAuction = await auction.save();
       io.to(auctionId).emit('bidUpdated', updatedAuction);
@@ -119,3 +127,5 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(`server at http://localhost:${port}`);
 }); // server starts listining to requests
+
+export { server, io };
