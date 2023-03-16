@@ -19,7 +19,9 @@ auctionRouter.post('/', async (req, res) => {
     });
 
     const createdAuction = await newAuction.save();
-    res.status(201).json(createdAuction);
+    res
+      .status(201)
+      .json({ createdAuction, message: 'Auction Created Successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });

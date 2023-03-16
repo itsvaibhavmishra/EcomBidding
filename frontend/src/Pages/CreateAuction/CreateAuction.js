@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { Store } from '../../Store';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAuction = () => {
+  const {
+    state: { userInfo },
+  } = useContext(Store);
+
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startingBid, setStartingBid] = useState(0);
@@ -18,16 +28,20 @@ const CreateAuction = () => {
         imageUrl,
         endDate,
       });
-      console.log(data);
+      toast(data.message);
+      navigate('/auction');
       // Handle success
     } catch (error) {
-      console.log(error.response.data.message);
+      toast(error.response.data.message);
       // Handle error
     }
   };
 
   return (
     <div className="mx-auto max-w-7xl mt-4">
+      <Helmet>
+        <title>Create Auction-EcomBidding</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-4 text-center">
         Create New Auction
       </h2>

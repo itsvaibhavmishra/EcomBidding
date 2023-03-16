@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { Store } from '../../Store';
 
 function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
   const [timeLeft, setTimeLeft] = useState('');
   const [auctionEnded, setAuctionEnded] = useState(false);
+
+  const {
+    state: { userInfo },
+  } = useContext(Store);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -47,7 +52,7 @@ function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
             Auction Ended
           </button>
         ) : (
-          <Link to={`/auctions/${id}`}>
+          <Link to={{ userInfo } ? `/auctions/${id}` : '/redirect?signin'}>
             <button className="w-full py-2 px-4 bg-gray-300 text-gray-600 duration-200 rounded-md mt-4 hover:bg-gray-400">
               Bid Now
             </button>

@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import Loading from '../../Components/Loading/Loading';
+import { Store } from '../../Store';
 
 const AuctionDetail = () => {
   const { id } = useParams();
   const [auction, setAuction] = useState(null);
   const [bid, setBid] = useState('');
   const [socket, setSocket] = useState(null);
+
+  const {
+    state: { userInfo },
+  } = useContext(Store);
 
   useEffect(() => {
     const fetchData = async () => {
