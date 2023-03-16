@@ -147,19 +147,23 @@ export default function PlaceOrder() {
               <div className="flex flex-col space-y-4">
                 <div className="flex justify-between">
                   <p className="text-gray-700">Items</p>
-                  <p className="text-gray-700">{cart.itemsPrice.toFixed(2)}</p>
+                  <p className="text-gray-700">
+                    {cart.itemsPrice.toLocaleString('en-IN')}
+                  </p>
                 </div>
                 <hr />
                 <div className="flex justify-between">
                   <p className="text-gray-700">Shipping</p>
                   <p className="text-gray-700">
-                    {cart.shippingPrice.toFixed(2)}
+                    {cart.shippingPrice.toLocaleString('en-IN')}
                   </p>
                 </div>
                 <hr />
                 <div className="flex justify-between">
                   <p className="text-gray-700">Tax</p>
-                  <p className="text-gray-700">{cart.taxPrice.toFixed(2)}</p>
+                  <p className="text-gray-700">
+                    {cart.taxPrice.toLocaleString('en-IN')}
+                  </p>
                 </div>
                 <hr />
                 <div className="flex justify-between">

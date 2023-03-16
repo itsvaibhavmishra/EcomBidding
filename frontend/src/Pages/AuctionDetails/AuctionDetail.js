@@ -85,7 +85,7 @@ const AuctionDetail = () => {
     setAuction(data);
     setBid('');
     socket.emit('bid', data);
-    toast.success('Bid Placed');
+    toast.success('Bid Placed Successfully 🎉');
   };
 
   const handleBidChange = (event) => {
@@ -155,16 +155,16 @@ const AuctionDetail = () => {
                 </div>
                 <button
                   type="submit"
-                  className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Submit Bid
                 </button>
               </form>
             ) : (
-              <Link to="/redirect?signin">
+              <Link to="/signin">
                 <button
                   type="submit"
-                  className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Login to bid
                 </button>
