@@ -52,7 +52,11 @@ function AuctionPage() {
     <div className="bg-gray-100">
       <header className="bg-cyan-500 py-4 shadow-sm">
         <div className="container mx-auto flex items-center">
-          <div className="flex-grow flex justify-center ml-36">
+          <div
+            className={`flex-grow flex justify-center ${
+              userInfo && userInfo.isSeller ? 'ml-36' : ' ml-auto'
+            } `}
+          >
             <h1 className="text-3xl font-bold text-white mx-auto">
               <i className="fas fa-hourglass-half text-2xl mr-2"></i>
               Live Auction

@@ -1,11 +1,12 @@
 import express from 'express';
 import Auction from '../models/auctionModel.js';
 import { io } from '../server.js';
+import { isAuth, isSeller } from '../utils.js';
 
 const auctionRouter = express.Router();
 
 // Create new auction
-auctionRouter.post('/', async (req, res) => {
+auctionRouter.post('/', isAuth, isSeller, async (req, res) => {
   try {
     const { title, description, startingBid, imageUrl, endDate } = req.body;
 
@@ -40,7 +41,7 @@ auctionRouter.get('/', async (req, res) => {
 });
 
 // Get a specific auction
-auctionRouter.get('/:id', async (req, res) => {
+auctionRouter.get('/:id', isAuth, async (req, res) => {
   try {
     const auction = await Auction.findById(req.params.id);
     if (!auction) {
@@ -54,7 +55,7 @@ auctionRouter.get('/:id', async (req, res) => {
 });
 
 // Place a bid on an auction
-auctionRouter.post('/:id/bids', async (req, res) => {
+auctionRouter.post('/:id/bids', isAuth, async (req, res) => {
   try {
     const auction = await Auction.findById(req.params.id);
 
@@ -74,8 +75,9 @@ auctionRouter.post('/:id/bids', async (req, res) => {
       return res.status(400).json({ message: 'Auction has ended' });
     }
 
-    auction.bids.push({ bidder, bidAmount });
+    auction.bids.push({ bidder: bidder, bidAmount: bidAmount });
     auction.currentBid = bidAmount;
+    auction.bids.bidder = bidder;
 
     const updatedAuction = await auction.save();
     io.emit('bid', updatedAuction); // emit the 'bid' event with the updated auction

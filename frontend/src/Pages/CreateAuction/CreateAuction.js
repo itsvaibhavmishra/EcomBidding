@@ -21,14 +21,22 @@ const CreateAuction = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('/api/auctions', {
-        title,
-        description,
-        startingBid,
-        imageUrl,
-        endDate,
-      });
-      toast(data.message);
+      const { data } = await axios.post(
+        '/api/auctions',
+        {
+          title,
+          description,
+          startingBid,
+          imageUrl,
+          endDate,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      toast.success(data.message);
       navigate('/auction');
       // Handle success
     } catch (error) {

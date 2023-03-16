@@ -60,8 +60,6 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`[Socket] New connection ${socket.id}`);
-
   socket.on('joinAuction', async (auctionId) => {
     try {
       const auction = await Auction.findById(auctionId);
@@ -119,9 +117,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('disconnect', () => {
-    console.log(`[SocketIO] Socket disconnected: ${socket.id}`);
-  });
+  socket.on('disconnect', () => {});
 });
 
 server.listen(port, () => {

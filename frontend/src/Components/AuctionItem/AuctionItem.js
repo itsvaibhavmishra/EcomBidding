@@ -52,7 +52,7 @@ function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
             Auction Ended
           </button>
         ) : (
-          <Link to={{ userInfo } ? `/auctions/${id}` : '/redirect?signin'}>
+          <Link to={userInfo ? `/auctions/${id}` : '/signin'}>
             <button className="w-full py-2 px-4 bg-gray-300 text-gray-600 duration-200 rounded-md mt-4 hover:bg-gray-400">
               Bid Now
             </button>
