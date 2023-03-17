@@ -115,7 +115,9 @@ const AuctionDetail = () => {
           {/* Product details */}
           <div className="w-full p-4 mt-3 bg-white rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-2">{auction.title}</h2>
-            <p className="text-gray-500 text-base mb-4">{auction.details}</p>
+            <p className="text-gray-500 text-base mb-4">
+              {auction.description}
+            </p>
 
             {/* Time left for auction */}
             <TimeLeft endDate={auction.endDate} />
@@ -127,15 +129,40 @@ const AuctionDetail = () => {
               <p className="text-gray-500 text-sm">Current Bid:</p>
               <p className="text-lg font-semibold">₹{auction.currentBid}</p>
             </div>
+            {auction.bids.length > 0 && (
+              <div className="border-b border-gray-200 py-2">
+                <div className="flex justify-between mb-2">
+                  <p className="text-gray-500 text-sm">Highest Bidder</p>
+                  <p className="text-lg font-semibold">
+                    {auction.bids[auction.bids.length - 1].bidder}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* New bid input field and submit button */}
             {new Date(auction.endDate).getTime() <= Date.now() ? (
-              <button
-                className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
-                disabled
-              >
-                Auction Ended
-              </button>
+              <>
+                {auction.bids.length > 0 && (
+                  <div className="border-b border-gray-200 py-2">
+                    <p className="text-lg font-semibold">
+                      {auction.bids[auction.bids.length - 1].bidder ===
+                      userInfo.name ? (
+                        <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white duration-200 rounded-md mt-4">
+                          ADD TO CART
+                        </button>
+                      ) : (
+                        <button
+                          className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
+                          disabled
+                        >
+                          Auction Ended
+                        </button>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </>
             ) : userInfo ? (
               <form
                 onSubmit={(e) => handleSubmit(e, userInfo.name)}
@@ -169,6 +196,17 @@ const AuctionDetail = () => {
                   Login to bid
                 </button>
               </Link>
+            )}
+            {auction.bids.length > 0 && (
+              <div className="border-b border-gray-200 py-2 mt-4">
+                <h3 className="text-lg font-bold mb-2">Bids History:</h3>
+                {auction.bids.map((bid, index) => (
+                  <div key={index} className="flex justify-between mb-2">
+                    <p className="text-gray-500 text-sm">{bid.bidder}</p>
+                    <p className="text-gray-500 text-sm">₹{bid.bidAmount}</p>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>
