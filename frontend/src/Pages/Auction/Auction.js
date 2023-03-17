@@ -82,7 +82,7 @@ function AuctionPage() {
           <ErrorPage />
         ) : products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.map((product) => (
+            {products.reverse().map((product) => (
               <AuctionItem
                 key={product._id}
                 id={product._id}
