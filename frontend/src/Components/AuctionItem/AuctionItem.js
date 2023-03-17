@@ -3,7 +3,14 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Store } from '../../Store';
 
-function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
+function AuctionItem({
+  id,
+  title,
+  imageUrl,
+  endDate,
+  currentBid,
+  highestBidder,
+}) {
   const [timeLeft, setTimeLeft] = useState('');
   const [auctionEnded, setAuctionEnded] = useState(false);
 
@@ -45,12 +52,22 @@ function AuctionItem({ id, title, imageUrl, endDate, currentBid }) {
           Time Left: <span className="font-bold">{timeLeft}</span>
         </p>
         {auctionEnded ? (
-          <button
-            className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
-            disabled
-          >
-            Auction Ended
-          </button>
+          <>
+            {highestBidder ? (
+              <Link to={userInfo ? `/auctions/${id}` : '/signin'}>
+                <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white duration-200 rounded-md mt-4">
+                  You Win!
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
+                disabled
+              >
+                Auction Ended
+              </button>
+            )}
+          </>
         ) : (
           <Link to={userInfo ? `/auctions/${id}` : '/signin'}>
             <button className="w-full py-2 px-4 bg-gray-300 text-gray-600 duration-200 rounded-md mt-4 hover:bg-gray-400">

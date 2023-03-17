@@ -142,12 +142,27 @@ const AuctionDetail = () => {
 
             {/* New bid input field and submit button */}
             {new Date(auction.endDate).getTime() <= Date.now() ? (
-              <button
-                className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
-                disabled
-              >
-                Auction Ended
-              </button>
+              <>
+                {auction.bids.length > 0 && (
+                  <div className="border-b border-gray-200 py-2">
+                    <p className="text-lg font-semibold">
+                      {auction.bids[auction.bids.length - 1].bidder ===
+                      userInfo.name ? (
+                        <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white duration-200 rounded-md mt-4">
+                          ADD TO CART
+                        </button>
+                      ) : (
+                        <button
+                          className="w-full py-2 px-4 cursor-not-allowed bg-gray-100 text-gray-400 duration-200 rounded-md mt-4"
+                          disabled
+                        >
+                          Auction Ended
+                        </button>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </>
             ) : userInfo ? (
               <form
                 onSubmit={(e) => handleSubmit(e, userInfo.name)}
