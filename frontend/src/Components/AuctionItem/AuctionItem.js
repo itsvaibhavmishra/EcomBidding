@@ -47,7 +47,9 @@ function AuctionItem({
       />
       <div className="px-4 py-2">
         <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-        <p className="text-gray-600">Current Bid: ₹{currentBid}</p>
+        <p className="text-gray-600">
+          Current Bid: ₹{currentBid.toLocaleString('en-IN')}
+        </p>
         <p className="text-gray-600">
           Time Left: <span className="font-bold">{timeLeft}</span>
         </p>

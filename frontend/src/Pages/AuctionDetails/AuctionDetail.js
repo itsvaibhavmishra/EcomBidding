@@ -125,9 +125,13 @@ const AuctionDetail = () => {
             {/* Current bid */}
             <div className="border-b border-gray-200 py-2 flex justify-between items-center mb-4">
               <p className="text-gray-500 text-sm">Starting Bid:</p>
-              <p className="text-lg font-semibold">₹{auction.startingBid}</p>
+              <p className="text-lg font-semibold">
+                ₹{auction.startingBid.toLocaleString('en-IN')}
+              </p>
               <p className="text-gray-500 text-sm">Current Bid:</p>
-              <p className="text-lg font-semibold">₹{auction.currentBid}</p>
+              <p className="text-lg font-semibold">
+                ₹{auction.currentBid.toLocaleString('en-IN')}
+              </p>
             </div>
             {auction.bids.length > 0 && (
               <div className="border-b border-gray-200 py-2">
@@ -203,7 +207,9 @@ const AuctionDetail = () => {
                 {auction.bids.map((bid, index) => (
                   <div key={index} className="flex justify-between mb-2">
                     <p className="text-gray-500 text-sm">{bid.bidder}</p>
-                    <p className="text-gray-500 text-sm">₹{bid.bidAmount}</p>
+                    <p className="text-gray-500 text-sm">
+                      ₹{bid.bidAmount.toLocaleString('en-IN')}
+                    </p>
                   </div>
                 ))}
               </div>
