@@ -40,6 +40,14 @@ auctionSchema.virtual('bidder').get(function () {
   return this.bids[this.bids.length - 1].bidder;
 });
 
+auctionSchema.pre('save', function (next) {
+  if (this.timeLeft === 0 && this.bids.length > 0) {
+    const winningBid = this.bids[this.bids.length - 1];
+    this.winner = winningBid.bidder;
+  }
+  next();
+});
+
 const Auction = mongoose.model('Auction', auctionSchema);
 
 export default Auction;
