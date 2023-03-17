@@ -1,5 +1,3 @@
-this is my code for Products Edit page can you write paragraphs on what is happening and how are things used individually also make sure to mention is any api request to backend is being implemented:
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
