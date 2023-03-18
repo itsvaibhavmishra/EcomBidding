@@ -42,9 +42,7 @@ function Product(props) {
           </Link>
           <div className="p-4">
             <Link to={`/products/${product.url}`}>
-              <h2 className="text-gray-900 font-medium title-font mb-2">
-                {product.name}
-              </h2>
+              <h2 className="text-gray-900 font-medium mb-2">{product.name}</h2>
               <div className="items-center mb-4">
                 <Rating rating={product.rating} reviews={product.reviews} />
               </div>

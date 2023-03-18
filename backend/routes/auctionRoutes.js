@@ -1,7 +1,7 @@
 import express from 'express';
 import Auction from '../models/auctionModel.js';
 import { io } from '../server.js';
-import { isAuth, isSeller } from '../utils.js';
+import { isAdmin, isAuth, isSeller } from '../utils.js';
 
 const auctionRouter = express.Router();
 
@@ -85,6 +85,20 @@ auctionRouter.post('/:id/bids', isAuth, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// DELETE auction by ID
+auctionRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
+  try {
+    const auction = await Auction.findByIdAndDelete(req.params.id);
+    if (!auction) {
+      return res.status(404).send({ error: 'Auction not found' });
+    }
+    res.send({ auction, message: 'Auction Deleted' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
   }
 });
 

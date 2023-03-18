@@ -10,6 +10,7 @@ function AuctionItem({
   endDate,
   currentBid,
   highestBidder,
+  handleDeleteAuction,
 }) {
   const [timeLeft, setTimeLeft] = useState('');
   const [auctionEnded, setAuctionEnded] = useState(false);
@@ -35,16 +36,27 @@ function AuctionItem({
     return () => clearInterval(intervalId);
   }, [endDate]);
 
+  const handleDelete = () => {
+    handleDeleteAuction();
+  };
+
   return (
     <div className="bg-white shadow-md rounded-md overflow-hidden" key={id}>
       <Helmet>
         <title>Auction House-EcomBidding</title>
       </Helmet>
-      <img
-        src={imageUrl}
-        alt="ItemImage"
-        className="w-full h-48 object-contain hover:scale-105 duration-500"
-      />
+      <div className="relative">
+        <img
+          src={imageUrl}
+          alt="ItemImage"
+          className="w-full h-48 object-contain hover:scale-105 duration-500"
+        />
+        {userInfo && userInfo.isAdmin && (
+          <button className="absolute top-0 right-0" onClick={handleDelete}>
+            <i className="fas fa-trash-alt text-gray-200 bg-transparent hover:text-gray-500 hover:bg-gray-200 duration-200 px-2 py-2"></i>
+          </button>
+        )}
+      </div>
       <div className="px-4 py-2">
         <h2 className="text-lg font-bold text-gray-800">{title}</h2>
         <p className="text-gray-600">
