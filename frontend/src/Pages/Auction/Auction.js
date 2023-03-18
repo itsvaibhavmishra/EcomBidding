@@ -84,31 +84,31 @@ function AuctionPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {products.reverse().map((product) => (
               <>
-                {product.bids.length > 0 && (
-                  <div className="border-b border-gray-200 py-2">
-                    {product.bids[product.bids.length - 1].bidder ===
-                    userInfo.name ? (
-                      <AuctionItem
-                        key={product._id}
-                        id={product._id}
-                        title={product.title}
-                        imageUrl={product.imageUrl}
-                        endDate={product.endDate}
-                        currentBid={product.currentBid}
-                        highestBidder={userInfo.name}
-                      />
-                    ) : (
-                      <AuctionItem
-                        key={product._id}
-                        id={product._id}
-                        title={product.title}
-                        imageUrl={product.imageUrl}
-                        endDate={product.endDate}
-                        currentBid={product.currentBid}
-                      />
-                    )}
-                  </div>
-                )}
+                <div className="border-b border-gray-200 py-2">
+                  {(product.bids.length > 0 &&
+                    product.bids[product.bids.length - 1].bidder) ===
+                  userInfo.name ? (
+                    <AuctionItem
+                      key={product._id}
+                      id={product._id}
+                      title={product.title}
+                      imageUrl={product.imageUrl}
+                      endDate={product.endDate}
+                      currentBid={product.currentBid}
+                      highestBidder={userInfo.name}
+                    />
+                  ) : (
+                    <AuctionItem
+                      key={product._id}
+                      id={product._id}
+                      title={product.title}
+                      imageUrl={product.imageUrl}
+                      endDate={product.endDate}
+                      currentBid={product.currentBid}
+                      highestBidder="No Bids"
+                    />
+                  )}
+                </div>
               </>
             ))}
           </div>
