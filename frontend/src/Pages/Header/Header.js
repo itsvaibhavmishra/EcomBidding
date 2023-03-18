@@ -159,12 +159,14 @@ export default function Navbar() {
                 {isMenuOpen && (
                   <div
                     onClick={handleOutsideClick}
-                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-auto mt-2 w-auto left-auto"
+                    className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-lg right-4 mt-2 w-auto left-auto"
                   >
-                    <div className="px-4 py-3 text-sm text-gray-900 mt-1">
-                      <span className="bg-blue-500 text-white px-2">
-                        {userInfo.seller?.name}
-                      </span>
+                    <div className="px-4 py-3 text-sm text-gray-900 mt-1 whitespace-normal">
+                      {userInfo.seller?.name && (
+                        <span className="bg-blue-500 text-white px-2">
+                          {userInfo.seller?.name}
+                        </span>
+                      )}
                       <div className="font-medium truncate">
                         {userInfo.email}
                       </div>

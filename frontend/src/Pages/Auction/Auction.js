@@ -53,19 +53,21 @@ function AuctionPage() {
   const [auctions, setAuctions] = useState([]);
 
   const handleDeleteAuction = async (id) => {
-    try {
-      // eslint-disable-next-line
-      const { data } = await axios.delete(`/api/auctions/${id}`, {
-        headers: { Authorization: `Bearer ${userInfo.token}` },
-      });
-      setAuctions(auctions.filter((auction) => auction.id !== id));
-      dispatch({
-        type: 'FETCH_SUCCESS',
-        payload: products.filter((product) => product._id !== id),
-      });
-      toast.success('Auction Deleted!');
-    } catch (error) {
-      toast.error(error);
+    if (window.confirm('Are you sure to delete?')) {
+      try {
+        // eslint-disable-next-line
+        const { data } = await axios.delete(`/api/auctions/${id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        setAuctions(auctions.filter((auction) => auction.id !== id));
+        dispatch({
+          type: 'FETCH_SUCCESS',
+          payload: products.filter((product) => product._id !== id),
+        });
+        toast.success('Auction Deleted!');
+      } catch (error) {
+        toast.error(error);
+      }
     }
   };
 
