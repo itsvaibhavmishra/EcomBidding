@@ -1,5 +1,4 @@
 import express from 'express';
-import data from './data.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import seedRouter from './routes/seedRoutes.js';
@@ -121,7 +120,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log(`server at http://localhost:${port}`);
+  console.log(`server at PORT:${port}`);
 }); // server starts listining to requests
 
 export { server, io };
