@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 import Home from './Pages/Home/Home';
 import Header from './Pages/Header/Header';
 import Footer from './Pages/Footer/Footer';
@@ -26,6 +27,10 @@ import SellerRoute from './Components/SellerRoute/SellerRoute';
 import Auction from './Pages/Auction/Auction';
 import CreateAuction from './Pages/CreateAuction/CreateAuction';
 import AuctionDetail from './Pages/AuctionDetails/AuctionDetail';
+
+// Set the base URL for all axios requests
+axios.defaults.baseURL =
+  process.env.REACT_APP_API_PROXY || 'http://localhost:5000';
 
 function App() {
   return (
