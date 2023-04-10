@@ -1,17 +1,18 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { Server } from 'socket.io';
+import http from 'http';
+import cors from 'cors';
+import path from 'path';
+
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
-import { Server } from 'socket.io';
-import http from 'http';
-import cors from 'cors';
-
-import Auction from './models/auctionModel.js';
 import auctionRouter from './routes/auctionRoutes.js';
+import Auction from './models/auctionModel.js';
 
 dotenv.config();
 
@@ -44,6 +45,12 @@ app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/auctions', auctionRouter);
 
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+);
+
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
@@ -54,7 +61,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: [process.env.API_URI, 'http://localhost:3000'],
   },
 });
 
@@ -120,7 +127,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log(`server at PORT:${port}`);
+  console.log(`Server at port: ${port}`);
 }); // server starts listining to requests
 
 export { server, io };

@@ -1,0 +1,21 @@
+{
+  "name": "ecom-bidding",
+  "version": "1.0.0",
+  "description": "Ecommerce + Auction House Website MERN Project",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsvaibhavmishra/ecom-bidding.git"
+  },
+  "author": "Vaibhaw Mishra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsvaibhavmishra/ecom-bidding/issues"
+  },
+  "homepage": "https://github.com/itsvaibhavmishra/ecom-bidding#readme"
+}
