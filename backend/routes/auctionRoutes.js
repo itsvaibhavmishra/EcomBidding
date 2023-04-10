@@ -1,6 +1,6 @@
 import express from 'express';
 import Auction from '../models/auctionModel.js';
-import { io } from '../server.js';
+import { io } from '../index.js';
 import { isAdmin, isAuth, isSeller } from '../utils.js';
 
 const auctionRouter = express.Router();
