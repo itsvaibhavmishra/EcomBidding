@@ -56,6 +56,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [process.env.API_URI, 'http://localhost:3000'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   },
 });
 
