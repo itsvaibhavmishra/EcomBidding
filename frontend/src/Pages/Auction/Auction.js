@@ -40,10 +40,10 @@ function AuctionPage() {
     const fetchProducts = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const response = await fetch('/api/auctions'); // replace with your API endpoint
-        const data = await response.json();
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        const response = await axios.get('/api/auctions'); // replace with your API endpoint
+        dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
       } catch (err) {
+        console.log(err);
         dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
     };

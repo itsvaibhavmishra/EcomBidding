@@ -130,7 +130,7 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <Link to="/cart" className="relative inline-flex items-center mr-5">
+            <Link to="/cart" className="relative inline-flex items-center mr-8">
               <span className="relative inline-flex items-center rounded px-2.5 py-1.5 font-medium">
                 {cart.cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-2 h-5 w-5 rounded-full bg-red-500 flex justify-center text-white text-xs items-center">

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useReducer, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import io from 'socket.io-client';
 import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 import Loading from '../../Components/Loading/Loading';
@@ -40,12 +41,12 @@ const AuctionDetail = () => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const response = await fetch(`/api/auctions/${id}`, {
+        const response = await axios.get(`/api/auctions/${id}`, {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
           },
         });
-        const data = await response.json();
+        const data = response.data;
         setAuction(data);
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
@@ -54,7 +55,7 @@ const AuctionDetail = () => {
     };
     fetchData();
 
-    const newSocket = io('');
+    const newSocket = io(process.env.REACT_APP_API_PROXY);
     setSocket(newSocket);
 
     return () => {
@@ -72,16 +73,21 @@ const AuctionDetail = () => {
 
   const handleSubmit = async (event, userName) => {
     event.preventDefault();
-    const response = await fetch(`/api/auctions/${id}/bids`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${userInfo.token}`,
+    const response = await axios.post(
+      `/api/auctions/${id}/bids`,
+      {
+        bidder: userName,
+        bidAmount: bid,
       },
-      body: JSON.stringify({ bidder: userName, bidAmount: bid }),
-    });
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+    );
 
-    const data = await response.json();
+    const data = response.data;
     setAuction(data);
     setBid('');
     socket.emit('bid', data);
@@ -167,6 +173,11 @@ const AuctionDetail = () => {
                   </div>
                 )}
               </>
+            ) : auction.bids[auction.bids.length - 1].bidder ===
+              userInfo.name ? (
+              <button className="inline-block px-6 py-2 w-full leading-5 font-semibold rounded-lg text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-default">
+                You have the highest bid 🎉
+              </button>
             ) : userInfo ? (
               <form
                 onSubmit={(e) => handleSubmit(e, userInfo.name)}
@@ -193,10 +204,7 @@ const AuctionDetail = () => {
               </form>
             ) : (
               <Link to="/signin">
-                <button
-                  type="submit"
-                  className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
+                <button className="inline-block px-6 py-2 leading-5 font-semibold rounded-lg text-white bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                   Login to bid
                 </button>
               </Link>

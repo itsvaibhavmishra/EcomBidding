@@ -67,8 +67,8 @@ function AuctionItem({
         </p>
         {auctionEnded ? (
           <>
-            {highestBidder === userInfo.name ? (
-              <Link to={userInfo ? `/auctions/${id}` : '/signin'}>
+            {userInfo && highestBidder === userInfo.name ? (
+              <Link to={`/auctions/${id}`}>
                 <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white duration-200 rounded-md mt-4">
                   You Win!
                 </button>

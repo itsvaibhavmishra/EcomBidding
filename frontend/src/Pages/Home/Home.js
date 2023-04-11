@@ -47,7 +47,7 @@ function Home() {
         <Helmet>
           <title>EcomBidding</title>
         </Helmet>
-        <h2 className="text-gray-600 inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
+        <h2 className="text-gray-600 flex justify-center align-middle text-center md:inline-block border-b-2 w-4/12 border-solid border-lightgray text-4xl px-2 mx-auto">
           Listed Products
         </h2>
       </div>
