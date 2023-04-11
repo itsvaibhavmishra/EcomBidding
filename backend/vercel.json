@@ -1,15 +1,24 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./index.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "./index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/socket.io",
+      "dest": "http://ecom-bidding.vercel.app/socket.io",
+      "headers": {
+        "Connection": "Upgrade",
+        "Upgrade": "websocket"
+      },
+      "websocket": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
 }
