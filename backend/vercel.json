@@ -8,15 +8,6 @@
   ],
   "routes": [
     {
-      "src": "/socket.io",
-      "dest": "http://ecom-bidding.vercel.app/socket.io",
-      "headers": {
-        "Connection": "Upgrade",
-        "Upgrade": "websocket"
-      },
-      "websocket": true
-    },
-    {
       "src": "/(.*)",
       "dest": "/"
     }
