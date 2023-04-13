@@ -4,6 +4,8 @@
   <img src="https://i.imgur.com/muCFlpP.png" />
 </div>
 
+<br/>
+
 <p>
 Introducing our innovative and comprehensive ecommerce website with an exciting twist - an integrated auction house! Our website, built using the popular MERN stack, offers a seamless and user-friendly experience for both buyers and sellers alike. <br/>
 
