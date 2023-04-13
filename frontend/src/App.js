@@ -106,6 +106,7 @@ function App() {
               <ProtectedRoute>
                 <OrderPage />
               </ProtectedRoute>
+              <Footer />
             </>
           }
         />
@@ -130,6 +131,7 @@ function App() {
               <ProtectedRoute>
                 <ProfilePage />
               </ProtectedRoute>
+              <Footer />
             </>
           }
         />
@@ -140,6 +142,7 @@ function App() {
             <>
               <Header />
               <SearchPage />
+              <Footer />
             </>
           }
         />
@@ -153,6 +156,7 @@ function App() {
               <AdminRoute>
                 <Dashboard />
               </AdminRoute>
+              <Footer />
             </>
           }
         />
@@ -165,6 +169,7 @@ function App() {
               <AdminRoute>
                 <ProductListPage />
               </AdminRoute>
+              <Footer />
             </>
           }
           exact
@@ -215,6 +220,7 @@ function App() {
               <AdminRoute>
                 <UserEditPage />
               </AdminRoute>
+              <Footer />
             </>
           }
         />

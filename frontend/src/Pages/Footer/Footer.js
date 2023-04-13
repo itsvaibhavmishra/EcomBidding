@@ -15,12 +15,28 @@ function Footer() {
             </span>
           </Link>
           <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
-            Your Team Name
+            Developed By{' '}
+            <a
+              href="https://vaibhaw.netlify.app/"
+              target="_blank"
+              rel="noreferrer"
+              className=" hover:text-cyan-500 hover:font-medium hover:text-xl duration-200"
+            >
+              Vaibhaw Mishra
+            </a>
           </p>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-            <Link to="/" className="text-gray-500">
-              <span>Want to be a Seller?</span>
-            </Link>
+            <button>
+              <a
+                href="https://github.com/itsvaibhavmishra/ecom-bidding"
+                className="bg-white hover:bg-[#161B22] hover:text-white duration-200 border text-black py-2 px-4 rounded"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-github-alt mx-2"></i>
+                GitHub
+              </a>
+            </button>
           </span>
         </div>
       </footer>
