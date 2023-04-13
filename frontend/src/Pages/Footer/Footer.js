@@ -28,7 +28,7 @@ function Footer() {
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
             <button>
               <a
-                href="https://github.com/itsvaibhavmishra/ecom-bidding"
+                href="https://github.com/itsvaibhavmishra/ecombidding"
                 className="bg-white hover:bg-[#161B22] hover:text-white duration-200 border text-black py-2 px-4 rounded"
                 target="_blank"
                 rel="noreferrer"
