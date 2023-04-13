@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import './Product.css';
 import Rating from '../Rating/Rating';
 import axios from 'axios';
 import { Store } from '../../Store';

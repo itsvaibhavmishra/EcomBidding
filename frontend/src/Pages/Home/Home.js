@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
-import './Home.css';
 import Product from '../../Components/Product/Product';
 import { Helmet } from 'react-helmet-async';
 import Loading from '../../Components/Loading/Loading';
